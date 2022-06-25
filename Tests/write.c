@@ -18,7 +18,7 @@ int main() {
 
    Person *people = malloc(sizeof(Person) * ims);
 
-   for (int i = 0; i <= ims; i++) {
+   for (int i = 0; i < ims; i++) {
       printf("What is Person number %d's age: ", i);
       scanf("%d", &people[i].age);
 
@@ -30,7 +30,7 @@ int main() {
    }
 
    fwrite(people, sizeof(Person), 1,  fl);
-   //fwrite(ims, sizeof(ims), 1, fl2);
+   fwrite(&ims, sizeof(ims), 1, fl2);
 
    fclose(fl2);
    fclose(fl);
