@@ -15,7 +15,6 @@ ImageSpring Version 1
 // Type Definitions
 typedef unsigned char byte;
 typedef struct Pixel Pixel;
-typedef struct Images Images;
 typedef struct string string;
 typedef struct Result Result;
 typedef struct List List;
@@ -42,12 +41,6 @@ struct uList {
 struct string {
     int size; // Text array length
     char text[]; // Text array
-};
-
-// A structure containing an array of images
-struct Images {
-    int ims; // Images array length
-    Image images[0]; // Images array declaration
 };
 
 // The Result structure used for outputing the results
@@ -92,46 +85,17 @@ void clearFile(const char filename[]) {
 void writeToFile(FILE *fl, char text[]) {
     fprintf(fl, "%s", text);
 }
-/*
-int *encodeStruct(Images im) {
-    int size;
-    int a[size];
-    a[size] = im.ims;
-    for (unsigned long i; i <= len(im.images); i++) {
-        Image current = im.images[i];
-        int bSize = 0;
-        int b[bSize];
-
-        b[bSize] = current.width;
-        b[bSize++] = current.height;
-        b[bSize++] = current.pixelCount;
-
-        b[bSize++] = 0;
-        int arr[len(current.pixels)];
-        int *p = byteArrayToInt(current.pixels);
-
-        for (int i = 0; i <= len(current.pixels); i++) {
-            arr[i] = p[i];
-        }
-        b[bSize++] = arr;
-
-        b[bSize++] = current.topic;
-
-        a[size++] = b;
-    };
-
-    return 0;
-}
 
 // Write a struct to file
-void writeStructToFile(FILE *fl, Images input) {
-    if (fl != NULL) {
-        fwrite(&input, sizeof(Images), 1, fl);
+void writeStructToFile(FILE *structBin, FILE *len, Image *Images) {
+    int a = len(Images);
+
+    if (structBin != NULL && len != NULL) {
+        fwrite(&Images, sizeof(Image), 1, structBin);
+        fwrite(&a, sizeof(int), 1, len);
     }
-    else;
-        printf("is null");
 }
-*/
+
 // Read all the contents of the file
 char *readFile(FILE *fl) {
     fseek(fl, 0, SEEK_END);
@@ -258,12 +222,6 @@ void quickSort(Result r, int first, int last) {
     }
 }
 
-// Add an Image to an array of images
-void addImageToList(Image image, Images images) {
-    images.images[images.ims++] = image;
-    //writeStructToFile(openFile("saves.txt", "w"), images);
-}
-
 // Get input from the user
 string input(char ins[]) {
     string r;
@@ -278,13 +236,13 @@ string input(char ins[]) {
     return r;
 }
 
-Result search(Image img, Images array) {
+Result search(Image img, Image *array) {
     Result r;
 
-    for (int i; i <= array.ims; i++) {
-        r.pers[r.persLength++] = compareImage(img, array.images[i]);
+    for (int i; i <= elems(array); i++) {
+        r.pers[r.persLength++] = compareImage(img, array[i]);
 
-        r.topics[r.topicsLength++] = array.images[i].topic;
+        r.topics[r.topicsLength++] = array[i].topic;
     }
     quickSort(r, 0, sizeof(r.pers));
 
