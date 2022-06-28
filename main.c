@@ -239,9 +239,8 @@ string input(char ins[]) {
 Result search(Image img, Image *array) {
     Result r;
 
-    for (int i; i <= elems(array); i++) {
+    for (int i; i <= len(array); i++) {
         r.pers[r.persLength++] = compareImage(img, array[i]);
-
         r.topics[r.topicsLength++] = array[i].topic;
     }
     quickSort(r, 0, sizeof(r.pers));
