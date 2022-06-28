@@ -28,13 +28,13 @@ struct Pixel {
 };
 
 struct List {
-    int arraySize;
-    int array[0];
+    int arraySize; // The array size
+    int array[0]; // Create an int array
 };
 
 struct uList {
-    int arraySize;
-    byte array[0];
+    int arraySize; // The array size
+    byte array[0]; // Create an unsigned char array
 };
 
 // String structure
@@ -52,47 +52,48 @@ struct Result {
     char topics[0]; // Topics array creation
 };
 
+// Unconventional method of converting an unsigned char array to an int array
 List convertToInt(uList b) {
-    List a;
-    for (int i; i <= len(b.array); i++) {
-        a.array[a.arraySize++] = (int)b.array[i];
+    List a; // Create the List (array) a
+    for (int i; i <= len(b.array); i++) { // Loop through the unsigned char array
+        a.array[a.arraySize++] = (int)b.array[i]; // Convert the unsigned char value at position i to int
     }
 
-    return a;
+    return a; // Return the converted array
 }
 
-// Close the inputted file
+// A convolunted method of closing the inputted file
 void closeFile(FILE *fl) {
-    fclose(fl);
+    fclose(fl); // Close the file
 }
 
 // Open the file in the specified mode
 FILE *openFile(const char filename[], const char mode[]) {
-    FILE *fl = fopen(filename, mode);
+    FILE *fl = fopen(filename, mode); // Open the file in the specified mode
     if (fl == NULL) {
-        fclose(fl);
+        fclose(fl); // Close the file as it does not exist
     }
     else;
-        return fl;
+        return fl; // Return the file
 }
 
 // Clear the file
 void clearFile(const char filename[]) {
-    fclose(fopen(filename, "w"));
+    fclose(fopen(filename, "w")); // Open the file (clears the file also) then close the file
 }
 
 // Write inputted text to a given file
 void writeToFile(FILE *fl, char text[]) {
-    fprintf(fl, "%s", text);
+    fprintf(fl, "%s", text); // Write the given to the file object
 }
 
 // Write a struct to file
 void writeStructToFile(FILE *structBin, FILE *len, Image *Images) {
-    int a = len(Images);
+    int a = len(Images); // Get the length of the pointer Images
 
     if (structBin != NULL && len != NULL) {
-        fwrite(&Images, sizeof(Image), 1, structBin);
-        fwrite(&a, sizeof(int), 1, len);
+        fwrite(&Images, sizeof(Image), 1, structBin); // Write the array of structs to the first file
+        fwrite(&a, sizeof(int), 1, len); // Write the length of the Images array to the second file
     }
 }
 
@@ -109,12 +110,12 @@ char *readFile(FILE *fl) {
 
 // Returns the pixel value at position (x, y)
 Pixel getPixel(Image image, int x, int y) {
-    int px = (x + image.width * y) * 3;
-    Pixel result;
-    result.r = image.pixels[px];
-    result.g = image.pixels[px + 1];
-    result.b = image.pixels[px + 2];
-    return result;
+    int px = (x + image.width * y) * 3; // Calculate the Pixel offset
+    Pixel r; // Create the result 
+    r.r = image.pixels[px]; // Get the pixel Red value at position px
+    r.g = image.pixels[px + 1]; // Get the pixel Green value at position px + 1
+    r.b = image.pixels[px + 2]; // Get the pixel Blue value at position px + 2
+    return r; // Return the pixel value
 }
 
 // Compares 3 values
@@ -133,12 +134,11 @@ int close(int num, int min, int max) {
 
 // Find the lowest value
 int lowest(int num, int num2) {
-    if (num <= num2) {
-        return num;
+    if (num <= num2) { // Check which value is lower
+        return num; // Num is the lowest number and return it
     }
-    else {
-        return num2;
-    }
+    else;
+        return num2; // Num2 is the lowest number and return it
 }
 
 // Compares 2 input Images img1 and img2 both inputs must be of Type Image (See line 370 in stb_image.h)
@@ -160,8 +160,8 @@ float compareImageSlow(Image img1, Image img2) {
     float c; // Define the certainty
     int w = lowest(img1.width, img2.width); // Find the lowest width
     int h = lowest(img1.height, img2.height); // Find the lowest height
-    for (int x = 0; x < w; x++) {
-        for (int y = 0; y < h; y++) {
+    for (int x = 0; x < w; x++) { // Loop through the X values
+        for (int y = 0; y < h; y++) { // Loop through the Y values
             // Get the Pixel RGB Values of both images
             Pixel p = getPixel(img1, x, y);
             Pixel p2 = getPixel(img2, x, y);
@@ -224,28 +224,28 @@ void quickSort(Result r, int first, int last) {
 
 // Get input from the user
 string input(char ins[]) {
-    string r;
-    char out;
+    string r; // Create the return value
+    char out; // Create charactor output
 
-    printf("%s", ins);
-    scanf("%c", &out);
+    printf("%s", ins); // Output the value names "ins"
+    scanf("%c", &out); // Get the value and set it to out
     
-    r.size = sizeof(out);
-    r.text[r.size] = out;
+    r.size = sizeof(out); // Set the size of the string
+    r.text[r.size] = out; // Copy the char named out to the string r
 
-    return r;
+    return r; // Return the string named r
 }
 
 Result search(Image img, Image *array) {
-    Result r;
+    Result r; // Create the result
 
-    for (int i; i <= len(array); i++) {
-        r.pers[r.persLength++] = compareImage(img, array[i]);
-        r.topics[r.topicsLength++] = array[i].topic;
+    for (int i; i <= len(array); i++) { // Loop through the provided List of Images
+        r.pers[r.persLength++] = compareImage(img, array[i]); // Compare the Image array[i] with Image img
+        r.topics[r.topicsLength++] = array[i].topic; // Add the Image array[i]'s topic to r.topics
     }
-    quickSort(r, 0, sizeof(r.pers));
+    quickSort(r, 0, sizeof(r.pers)); // Sort the variable r
 
-    return r;
+    return r; // Return r
 }
 
 int main() {
