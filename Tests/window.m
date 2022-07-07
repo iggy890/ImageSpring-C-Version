@@ -1,5 +1,6 @@
 #include <Cocoa/Cocoa.h>
 
+/*
 @interface window:NSObject {
     NSWindow *window = [[NSWindow alloc] init];
     void init() {
@@ -18,6 +19,11 @@
     }
 }
 @end
+*/
+
+NSColor *createColor(float r, float g, float b) {
+    return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:1.0f];
+}
 
 int main() {
 @autoreleasepool {
@@ -26,8 +32,8 @@ int main() {
         window.title = @"Test???";
         window.subtitle = @"Bottom Text";
         [window setFrame:NSMakeRect(0.f, 0.f, 300.f, 300.f) display:YES animate:YES];
-        // Make it blue just for better visibility
-        [window setBackgroundColor:[NSColor blueColor]];
+        // Set the color
+        [window setBackgroundColor: createColor(0.5, 1, 0.1)];
         // Bring to front and make it key
         [window makeKeyAndOrderFront:nil];
         while (1) {
