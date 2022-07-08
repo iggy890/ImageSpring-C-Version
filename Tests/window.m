@@ -1,4 +1,5 @@
 #include <Cocoa/Cocoa.h>
+#include <stdio.h>
 
 NSColor *createColor(float r, float g, float b, float a) {
     return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:a];
@@ -14,14 +15,15 @@ int main() { @autoreleasepool {
         window.subtitle = @"Subtitle";
 
         NSText *t = [[NSText alloc] initWithFrame: createRect(50, 100, 100, 10)];
-        t.string = @"What is your name?";
+        t.string = @"hello :)";
         [window.contentView addSubview: t];
 
         [window setFrame: createRect(0, 0, 200, 200) display:YES animate:YES];
         [window setBackgroundColor: createColor(0.5, 1, 0.1, 1)];
-        [window makeKeyAndOrderFront:nil];
+        [window makeKeyAndOrderFront: window];
+        int p = 0;
         while (1) {
             NSEvent *event = [window nextEventMatchingMask: NSEventMaskAny];
-        }
+         }
     }
 }
