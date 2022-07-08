@@ -21,6 +21,7 @@ int main() { @autoreleasepool {
         [window setFrame: createRect(0, 0, 200, 200) display:YES animate:YES];
         [window setBackgroundColor: createColor(0.5, 1, 0.1, 1)];
         [window makeKeyAndOrderFront: window];
+        
         int p = 0;
         while (1) {
             NSEvent *event = [window nextEventMatchingMask: NSEventMaskAny];
