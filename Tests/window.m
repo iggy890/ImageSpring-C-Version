@@ -1,4 +1,5 @@
 #include <Cocoa/Cocoa.h>
+#include <stdio.h>
 
 NSColor *createColor(float r, float g, float b, float a) {
     return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:a];
@@ -14,8 +15,11 @@ int main() { @autoreleasepool {
         window.subtitle = @"Subtitle";
 
         NSText *t = [[NSText alloc] initWithFrame: createRect(50, 100, 100, 10)];
-        t.string = @"hello :)";
+        t.string = @"Quit app";
         [window.contentView addSubview: t];
+
+        NSButton *b = [[NSButton alloc] initWithFrame: createRect(10, 50, 100, 100)];
+        //[window.contentView addSubview: b];
 
         [window setFrame: createRect(0, 0, 200, 200) display:YES animate:YES];
         [window setBackgroundColor: createColor(0.5, 1, 0.1, 1)];
@@ -23,8 +27,8 @@ int main() { @autoreleasepool {
 
         while (1) {
             NSEvent *event = [window nextEventMatchingMask: NSEventMaskAny];
-            if ([event type] == NSEventTypeMouseMoved) {
-                NSLog(@"Mouse Moved");
+            if ([event type] == NSEventTypeLeftMouseDown) {
+                break;
             }
         }
     }
