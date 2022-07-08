@@ -1,5 +1,4 @@
 #include <Cocoa/Cocoa.h>
-#include <stdio.h>
 
 NSColor *createColor(float r, float g, float b, float a) {
     return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:a];
@@ -24,8 +23,8 @@ int main() { @autoreleasepool {
 
         while (1) {
             NSEvent *event = [window nextEventMatchingMask: NSEventMaskAny];
-            if ([event type] == NSEventTypeRightMouseDown) {
-                NSLog(@"Right Mouse down");
+            if ([event type] == NSEventTypeMouseMoved) {
+                NSLog(@"Mouse Moved");
             }
         }
     }
