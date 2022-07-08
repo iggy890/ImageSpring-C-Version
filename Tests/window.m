@@ -22,12 +22,11 @@ int main() { @autoreleasepool {
         [window setBackgroundColor: createColor(0.5, 1, 0.1, 1)];
         [window makeKeyAndOrderFront: window];
 
-        int p = 0;
         while (1) {
             NSEvent *event = [window nextEventMatchingMask: NSEventMaskAny];
             if ([event type] == NSEventTypeRightMouseDown) {
                 NSLog(@"Right Mouse down");
             }
-         }
+        }
     }
 }
