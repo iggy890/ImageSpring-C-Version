@@ -35,13 +35,17 @@ int main() {
         NSWindow *window = [[NSWindow alloc] init];
         window.title = @"Title";
         window.subtitle = @"Subtitle";
+
+        NSRect *pos = createRect(10, 10, 20, 20);
+        NSTextField *yourLabel = [[NSTextField alloc] initWithFrame:pos];
+
         [window setFrame:createRect(0, 0, 300, 300) display:YES animate:YES];
-        // Set the color
+
         [window setBackgroundColor: createColor(0.5, 1, 0.1)];
-        // Bring to front and make it key
         [window makeKeyAndOrderFront:nil];
+
         while (1) {
-            NSEvent *event = [window nextEventMatchingMask:NSEventMaskAny]; //window shows now
+            NSEvent *event = [window nextEventMatchingMask:NSEventMaskAny];
         }
     }
 }
