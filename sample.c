@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include "Python.h"
+#include <Python/Python.h>
 
-int main()
-{
+int main() {
 	PyObject* pInt;
 
 	Py_Initialize();
