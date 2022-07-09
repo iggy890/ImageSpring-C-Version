@@ -14,13 +14,12 @@ int main() { @autoreleasepool {
         window.title = @"Title";
         window.subtitle = @"Subtitle";
 
-        NSText *t = [[NSText alloc] initWithFrame: createRect(50, 100, 100, 10)];
-        t.string = @"Welcome!";
+        NSText *t = [[NSText alloc] initWithFrame: createRect(75, 100, 75, 10)];
+        t.string = @"Name:";
         [window.contentView addSubview: t];
         
-        NSButton *b = [[NSButton alloc] initWithFrame: createRect(10, 50, 100, 100)];
-        b.string = "Quit"
-        [window.contentView addSubview: b];
+        NSTextField *a = [[NSTextField alloc] initWithFrame: createRect(75, 75, 50, 10)];
+        [window.contentView addSubview: a];
 
         [window setFrame: createRect(0, 0, 200, 200) display:YES animate:YES];
         [window setBackgroundColor: createColor(0.5, 1, 0.1, 1)];
