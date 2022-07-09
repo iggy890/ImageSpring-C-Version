@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Headers/Python.h"
+#include "Python.h"
 
 int main()
 {
