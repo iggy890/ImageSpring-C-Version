@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <Python/Python.h>
+#include "Headers/Python.h"
 
 int main() {
 	PyObject* pInt;
