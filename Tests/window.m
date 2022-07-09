@@ -18,7 +18,7 @@ int main() { @autoreleasepool {
         t.string = @"Name:";
         [window.contentView addSubview: t];
         
-        NSTextField *a = [[NSTextField alloc] initWithFrame: createRect(75, 75, 50, 10)];
+        NSTextField *a = [[NSTextField alloc] initWithFrame: createRect(75, 75, 75, 20)];
         [window.contentView addSubview: a];
 
         [window setFrame: createRect(0, 0, 200, 200) display:YES animate:YES];
