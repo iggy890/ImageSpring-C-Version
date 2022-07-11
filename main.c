@@ -2,7 +2,8 @@
 ImageSpring Version 1
 */
 
-#define STB_IMAGE_IMPLEMENTATION // Needed for stb_image.h
+#define STB_IMAGE_IMPLEMENTATION // Macro for stb_image.h
+#define PythonRunner_ON // Macro for PythonRunner.h
 #define len(x) (sizeof(&x) / sizeof((x)[0])) // Get the size of an array
 #define SAVES_DIR "saves.txt" // The Directory of the saves
 
