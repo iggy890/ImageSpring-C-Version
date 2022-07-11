@@ -57,9 +57,5 @@ def loop():
         
         writeText = ""
         
-    
-
-
-
 window.mainloop()
 loop()
