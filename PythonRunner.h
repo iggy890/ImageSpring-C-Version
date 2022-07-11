@@ -13,6 +13,9 @@ void runSimpleString(char *code) {
     remove("temp.py");
 }
 
-
+void runFile(char *filename) {
+    char *command = ("python3", filename);
+    system(command)
+}
 
 #endif
