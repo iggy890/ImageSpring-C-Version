@@ -1,3 +1,5 @@
+import time
+
 def convert(text):
     new = ""
     for i in text:
@@ -7,6 +9,14 @@ def convert(text):
         new = (new + i)
 
     return new
+
+def wait(secs):
+    time.sleep(secs)
+
+searchClicked = False
+addImageClicked = False
+dirText = ""
+topicText = ""
 
 from tkinter import *
 window = Tk()
@@ -37,4 +47,14 @@ version.grid(row=1, column=4)
 result = Label(window, text="Welcome to ImageSpring!")
 result.grid(column=1, row=10)
 
+def loop():
+    edits = open("windowEdits.txt", "r")
+    while True:
+        c = edits.read()
+        if not c == "":
+            result.configure(window, text=c)
+            
+
+
 window.mainloop()
+loop()
