@@ -12,5 +12,5 @@ void runSimpleString(char *code) {
 }
 
 int main() {
-    runSimpleString("from tkinter import *\nwindow=Tk()\nwindow.geometry('400x400')\nwindow.title('test')\nwindow.mainloop()");
+    runSimpleString("from tkinter import *\nwindow=Tk()\nwindow.geometry('400x400')\nwindow.title('ImageSpring (C Version 1.0)')\nwindow.mainloop()");
 }
