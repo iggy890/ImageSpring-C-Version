@@ -11,6 +11,7 @@ ImageSpring Version 1
 #include <float.h> // Floating Point Library
 
 #include <string.h> // String Library
+
 #include "stb_image.h" // Main Imaging Library
 #include "PythonRunner.h" // A Library that runs Python Code
 
