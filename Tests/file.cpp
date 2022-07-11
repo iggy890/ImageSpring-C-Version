@@ -35,7 +35,7 @@ class File {
 
         string readFile() {
             ifstream t(name);
-            string str((istreambuf_iterator<char>(t)), istreambuf_iterator<char>());
+            return string((istreambuf_iterator<char>(t)), istreambuf_iterator<char>());
         }
 
         void writeFile(string text) {
