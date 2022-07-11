@@ -10,13 +10,14 @@ def convert(text):
 
     return new
 
-def wait(secs):
-    time.sleep(secs)
-
 searchClicked = False
 addImageClicked = False
-dirText = ""
-topicText = ""
+
+def searchClicked():
+    searchClicked = True
+
+def addImageClicked():
+    addImageClicked = True
 
 from tkinter import *
 window = Tk()
@@ -62,7 +63,9 @@ def loop():
         if not c == "":
             result.configure(window, text=c)
         
-        writeText = ""
+        writeText = str(dir.get())
+        writeText = (writeText + "\n" + str(topic.get()))
+        writeText = (writeText + "\n" + str())
         
 window.mainloop()
 loop()
