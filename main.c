@@ -252,5 +252,5 @@ Result search(Image img, Image *array) {
 }
 
 int main() {
-    
+    runSimpleString("")
 }
