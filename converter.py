@@ -65,7 +65,11 @@ def loop():
         
         writeText = str(dir.get())
         writeText = (writeText + "\n" + str(topic.get()))
-        writeText = (writeText + "\n" + str())
+        writeText = (writeText + "\n" + int(searchClicked))
+        writeText = (writeText + "\n" + int(addImageClicked))
+        writeText = (writeText + "\n" + c)
+        w.write(writeText)
+        
         
 window.mainloop()
 loop()
