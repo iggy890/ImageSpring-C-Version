@@ -1,0 +1,4 @@
+dirText:
+topicText:
+searchButtonPressed:
+addImageButtonPressed:

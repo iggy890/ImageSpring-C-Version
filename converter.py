@@ -49,11 +49,16 @@ result.grid(column=1, row=10)
 
 def loop():
     edits = open("windowEdits.txt", "r")
+    status = open("windowStatus.txt", "w")
     while True:
         c = edits.read()
         if not c == "":
             result.configure(window, text=c)
-            
+        
+        writeText = ""
+        
+    
+
 
 
 window.mainloop()
