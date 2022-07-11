@@ -2,5 +2,5 @@
 #include <stdlib.h>
 
 int main() {
-    printf("%i", system("echo 'Hello World'"));
+    printf("%i", system("python3 window.py"));
 }
