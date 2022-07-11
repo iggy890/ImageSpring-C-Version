@@ -11,6 +11,7 @@ ImageSpring Version 1
 
 #include <string.h> // String Library
 #include "stb_image.h" // Main Imaging Library
+#include "PythonRunner.h" // A Library that runs Python Code
 
 // Type Definitions
 typedef unsigned char byte;
@@ -249,9 +250,5 @@ Result search(Image img, Image *array) {
 }
 
 int main() {
-    Image r = stbi_load("ok.jpg", 0);
-
-    printf("Width: %d\n", r.width);
-    printf("Height: %d\n", r.height);
-    printf("Channels: %d\n", r.channels);
+    
 }
