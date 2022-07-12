@@ -10,14 +10,17 @@ def convert(text):
 
     return new
 
-searchClicked = False
-addImageClicked = False
+searchClicked = 0
+addImageClicked = 0
 
 def searchClick():
-    searchClicked = True
+    searchClicked = 1
+    print(searchClicked)
 
 def addImageClick():
-    addImageClicked = True
+    print("clicked add image")
+    addImageClicked = 1
+
 
 from tkinter import *
 window = Tk()
@@ -64,7 +67,7 @@ def task():
     c = r.readline(5)
     if not c == "":
         result.configure(window, text=c)
-        
+
     writeText = (f'"{str(dir.get())}"')
     writeText = (writeText + f'\n"{str(topic.get())}"')
     writeText = (writeText + f"\n{int(searchClicked)}")
