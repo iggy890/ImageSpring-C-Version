@@ -13,10 +13,10 @@ def convert(text):
 searchClicked = False
 addImageClicked = False
 
-def searchClicked():
+def searchClick():
     searchClicked = True
 
-def addImageClicked():
+def addImageClick():
     addImageClicked = True
 
 from tkinter import *
@@ -36,10 +36,10 @@ dir.grid(row=2, column=2)
 topic = Entry(window, width=30)
 topic.grid(row=2, column=1)
 
-search = Button(window, text="Search")
+search = Button(window, text="Search", command=searchClick)
 search.grid(row=2, column=3)
 
-addImage = Button(window, text="Add Image")
+addImage = Button(window, text="Add Image", command=addImageClick)
 addImage.grid(row=2, column=4)
 
 version = Label(window, text="Version: 1.0")
@@ -56,20 +56,23 @@ def openWithoutClearing(filename):
     w.write(c)
     return w
 
-def loop():
-    w = openWithoutClearing("window.txt")
-    while True:
-        c = w.readline(5)
-        if not c == "":
-            result.configure(window, text=c)
+def wait(secs):
+    time.sleep(secs)
+r = open("window.txt", "r")
+w = openWithoutClearing("window.txt")
+def task():
+    c = r.readline(5)
+    if not c == "":
+        result.configure(window, text=c)
         
-        writeText = str(dir.get())
-        writeText = (writeText + "\n" + str(topic.get()))
-        writeText = (writeText + "\n" + int(searchClicked))
-        writeText = (writeText + "\n" + int(addImageClicked))
-        writeText = (writeText + "\n" + c)
-        w.write(writeText)
-        
-        
+    writeText = (f'"{str(dir.get())}"')
+    writeText = (writeText + f'\n"{str(topic.get())}"')
+    writeText = (writeText + f"\n{int(searchClicked)}")
+    writeText = (writeText + f"\n{int(addImageClicked)}")
+    writeText = (writeText + f"\n{c}")
+    print(writeText)
+    w.write(writeText)
+    window.after(2000, task)
+
+window.after(2000, task)
 window.mainloop()
-loop()
