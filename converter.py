@@ -13,15 +13,6 @@ def convert(text):
 searchClicked = 0
 addImageClicked = 0
 
-def searchClick():
-    searchClicked = 1
-    print(searchClicked)
-
-def addImageClick():
-    print("clicked add image")
-    addImageClicked = 1
-
-
 from tkinter import *
 window = Tk()
 window.title("ImageSpring (C Version)")
@@ -38,6 +29,14 @@ dir.grid(row=2, column=2)
 
 topic = Entry(window, width=30)
 topic.grid(row=2, column=1)
+
+def searchClick():
+    global searchClicked
+    searchClicked = 1
+
+def addImageClick():
+    global addImageClicked
+    addImageClicked = 1
 
 search = Button(window, text="Search", command=searchClick)
 search.grid(row=2, column=3)
@@ -67,13 +66,13 @@ def task():
     c = r.readline(5)
     if not c == "":
         result.configure(window, text=c)
-
-    writeText = (f'"{str(dir.get())}"')
-    writeText = (writeText + f'\n"{str(topic.get())}"')
-    writeText = (writeText + f"\n{int(searchClicked)}")
-    writeText = (writeText + f"\n{int(addImageClicked)}")
+    
+    writeText = dir.get()
+    writeText = (writeText + f"\n{topic.get()}")
+    writeText = (writeText + f"\n{searchClicked}")
+    writeText = (writeText + f"\n{addImageClicked}")
     writeText = (writeText + f"\n{c}")
-    print(writeText)
+    print()
     w.write(writeText)
     window.after(2000, task)
 
