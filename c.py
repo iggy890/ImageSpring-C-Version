@@ -72,7 +72,6 @@ def task():
     writeText = (writeText + f"\n{searchClicked}")
     writeText = (writeText + f"\n{addImageClicked}")
     writeText = (writeText + f"\n{c}")
-    print()
     w.write(writeText)
     window.after(2000, task)
 

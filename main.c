@@ -288,6 +288,6 @@ Result search(Image img, Image *array) {
     return r; // Return r
 }
 
-int main(void) {
-
+int main() {
+    runFile("converter.py");
 }
