@@ -13,7 +13,7 @@ void runSimpleString(char *code) {
 }
 
 void runFile(char *filename) {
-    char *command = malloc(sizeof(filename) + 9);
+    char *command;
     sprintf(command, "%s %s", "python3", filename);
     system(command);
 }
