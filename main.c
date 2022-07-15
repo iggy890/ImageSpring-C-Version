@@ -6,6 +6,10 @@ ImageSpring Version 1
 #define PythonRunner_ON // Macro for PythonRunner.h
 #define len(x) (sizeof(&x) / sizeof((x)[0])) // Get the size of an array
 #define SAVES_DIR "saves.txt" // The Directory of the saves
+#define FILENAME_SIZE 1024 // Required for readLine()
+#define MAX_LINE 2048 // Required for readLine()
+
+char buffer[MAX_LINE]; // Global variable
 
 #include <stdio.h> // Standard Studio Library
 #include <float.h> // Floating Point Library
@@ -23,6 +27,8 @@ typedef struct Result Result;
 typedef struct List List;
 typedef struct uList uList;
 
+// Structs
+
 // A Pixel Structure
 struct Pixel {
     byte r; // Red Value
@@ -30,11 +36,13 @@ struct Pixel {
     byte b; // Blue Value
 };
 
+// A List Structure
 struct List {
     int arraySize; // The array size
     int array[0]; // Create an int array
 };
 
+// A List structure with unsigned char members
 struct uList {
     int arraySize; // The array size
     byte array[0]; // Create an unsigned char array
@@ -55,6 +63,8 @@ struct Result {
     char topics[0]; // Topics array creation
 };
 
+// End of structs
+
 // Unconventional method of converting an unsigned char array to an int array
 List convertToInt(uList b) {
     List a; // Create the List (array) a
@@ -64,6 +74,8 @@ List convertToInt(uList b) {
 
     return a; // Return the converted array
 }
+
+// File functions
 
 // A convolunted method of closing the inputted file
 void closeFile(FILE *fl) {
@@ -110,6 +122,29 @@ char *readFile(FILE *fl) {
     string[fsize] = 0;
     return string;
 }
+
+// Reads and returns the specified line number's text
+char *readLine(FILE *file, int read_line) {
+  char filename[FILENAME_SIZE];
+  strcpy(buffer, "");
+
+  int keep_reading = 1;
+  int current_line = 1;
+  do {
+    fgets(buffer, MAX_LINE, file);
+    if (current_line == read_line) {
+      keep_reading = 0;
+      return buffer;
+    }
+    current_line++;
+
+  } while (keep_reading);
+  return "File doesn't exist or line number not found";
+}
+
+// End of file functions
+
+// Image functions
 
 // Returns the pixel value at position (x, y)
 Pixel getPixel(Image image, int x, int y) {
@@ -176,6 +211,8 @@ float compareImageSlow(Image img1, Image img2) {
     }
     return (w * h) * 2 / c * 100; // Convert to % value
 }
+
+// End of Image functions
 
 // Retrieved from tutorialspoint.com/explain-the-quick-sort-technique-in-c-language
 void quickSort(Result r, int first, int last) {

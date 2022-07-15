@@ -1,5 +1,0 @@
-dirText:
-topicText:
-searchButtonPressed:
-addImageButtonPressed:
-resultText:
