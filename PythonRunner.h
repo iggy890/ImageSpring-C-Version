@@ -9,13 +9,12 @@ void runSimpleString(char *code) {
     fprintf(temp, "%s", code);
     fclose(temp);
 
-    system("python3 temp.py");
-    remove("temp.py");
+    system("python3 temp.py && rm temp.py");
 }
 
 void runFile(char *filename) {
     char *command = malloc(sizeof(filename) + 9);
-    sprintf(command,"%s %s", "python3", filename);
+    sprintf(command, "%s %s", "python3", filename);
     system(command);
 }
 
