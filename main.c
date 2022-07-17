@@ -289,12 +289,22 @@ Result search(Image img, Image *array) {
     return r; // Return r
 }
 
-void run() {
-    runFile("c.py");
+void *run(void *vargp) {
+    printf("Thread ID: %d\n", 0);
+    return NULL;
+}
+
+void *other(void *vargp) {
+    printf("Thread ID: %d\n", 0);
+    return NULL;
 }
 
 int main() {
-    pthread_t thread;
+    pthread_t thread0;
+    pthread_t thread1;
     
+    pthread_create(&thread0, NULL, run, NULL);
+    pthread_create(&thread1, NULL, other, NULL);
 
+    pthread_exit(NULL);
 }
