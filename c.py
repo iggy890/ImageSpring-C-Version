@@ -1,3 +1,4 @@
+from tkinter import *
 import time
 
 def convert(text):
@@ -13,7 +14,6 @@ def convert(text):
 searchClicked = 0
 addImageClicked = 0
 
-from tkinter import *
 window = Tk()
 window.title("ImageSpring (C Version)")
 window.geometry("800x400")
@@ -31,11 +31,9 @@ topic = Entry(window, width=30)
 topic.grid(row=2, column=1)
 
 def searchClick():
-    global searchClicked
     searchClicked = 1
 
 def addImageClick():
-    global addImageClicked
     addImageClicked = 1
 
 search = Button(window, text="Search", command=searchClick)
@@ -60,10 +58,17 @@ def openWithoutClearing(filename):
 
 def wait(secs):
     time.sleep(secs)
-r = open("window.txt", "r")
-w = openWithoutClearing("window.txt")
+
+def closeFiles(read, write):
+    read.close(); write.close()
+
 def task():
+    global searchClicked, addImageClicked
+    r = open("window.txt", "r")
+    w = open("window.txt", "w")
+
     c = r.readline(5)
+
     if not c == "":
         result.configure(window, text=c)
     
@@ -72,7 +77,10 @@ def task():
     writeText = (writeText + f"\n{searchClicked}")
     writeText = (writeText + f"\n{addImageClicked}")
     writeText = (writeText + f"\n{c}")
+
     w.write(writeText)
+    searchClicked, addImageClicked = 0, 0
+    closeFiles(r, w)
     window.after(2000, task)
 
 window.after(2000, task)
