@@ -14,6 +14,7 @@ char buffer[MAX_LINE]; // Global variable
 #include <stdio.h> // Standard Studio Library
 #include <float.h> // Floating Point Library
 
+#include <pthread.h> // Threading Library
 #include <string.h> // String Library
 
 #include "stb_image.h" // Main Imaging Library
@@ -288,6 +289,12 @@ Result search(Image img, Image *array) {
     return r; // Return r
 }
 
+void run() {
+    runFile("c.py");
+}
+
 int main() {
-    runFile("converter.py");
+    pthread_t thread;
+    
+
 }

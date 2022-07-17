@@ -1,5 +1,0 @@
-How to add new files:
-git add .
-git commit -m "Message"
-git push
-Done!

@@ -79,8 +79,10 @@ def task():
     writeText = (writeText + f"\n{c}")
 
     w.write(writeText)
+
     searchClicked, addImageClicked = 0, 0
     closeFiles(r, w)
+    
     window.after(2000, task)
 
 window.after(2000, task)

@@ -1,6 +1,5 @@
 #define PythonRunner_ON
 
-#include <unistd.h>
 #include <pthread.h>
 #include "PythonRunner.h"
 
@@ -10,13 +9,11 @@ void *run(void *vargp) {
 
 void *other(void *vargp) {
 	while (1) {
-		sleep(1);
-		printf("1 second has passed\n");
+		printf("Tick\n");
 	}
 }
 
 int main() {
-	int i;
 	pthread_t tid;
 
 	pthread_create(&tid, NULL, run, NULL);
