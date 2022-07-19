@@ -9,7 +9,7 @@ ImageSpring Version 1
 #define FILENAME_SIZE 1024 // Required for readLine()
 #define MAX_LINE 2048 // Required for readLine()
 
-char buffer[MAX_LINE]; // Global variable
+Image *Images; // Global variable
 
 #include <stdio.h> // Standard Studio Library
 #include <float.h> // Floating Point Library
@@ -84,7 +84,7 @@ void closeFile(FILE *fl) {
 }
 
 // Open the file in the specified mode
-FILE *openFile(const char filename[], const char mode[]) {
+FILE *openFile(char filename[], char mode[]) {
     FILE *fl = fopen(filename, mode); // Open the file in the specified mode
     if (fl == NULL) {
         fclose(fl); // Close the file as it does not exist
@@ -94,7 +94,7 @@ FILE *openFile(const char filename[], const char mode[]) {
 }
 
 // Clear the file
-void clearFile(const char filename[]) {
+void clearFile(char filename[]) {
     fclose(fopen(filename, "w")); // Open the file (clears the file also) then close the file
 }
 
@@ -104,13 +104,19 @@ void writeToFile(FILE *fl, char text[]) {
 }
 
 // Write a struct to file
-void writeStructToFile(FILE *structBin, FILE *len, Image *Images) {
+void writeStructToFile(FILE *structBin, Image *Images) {
     int a = len(Images); // Get the length of the pointer Images
 
-    if (structBin != NULL && len != NULL) {
-        fwrite(&Images, sizeof(Image), 1, structBin); // Write the array of structs to the first file
-        fwrite(&a, sizeof(int), 1, len); // Write the length of the Images array to the second file
+    if (structBin != NULL) {
+        fwrite(Images, sizeof(Image), 1, structBin); // Write the array of structs to the file
     }
+}
+
+Image *readStructFromFile(FILE *fl) {
+    Image *ims = malloc(sizeof(Image) * MAX_LINE);
+    fread(ims, sizeof(Image), 1, fl);
+
+    return ims;
 }
 
 // Read all the contents of the file
@@ -122,25 +128,6 @@ char *readFile(FILE *fl) {
     fread(string, fsize, 1, fl);
     string[fsize] = 0;
     return string;
-}
-
-// Reads and returns the specified line number's text
-char *readLine(FILE *file, int read_line) {
-  char filename[FILENAME_SIZE];
-  strcpy(buffer, "");
-
-  int keep_reading = 1;
-  int current_line = 1;
-  do {
-    fgets(buffer, MAX_LINE, file);
-    if (current_line == read_line) {
-      keep_reading = 0;
-      return buffer;
-    }
-    current_line++;
-
-  } while (keep_reading);
-  return "File doesn't exist or line number not found";
 }
 
 // End of file functions
@@ -290,12 +277,40 @@ Result search(Image img, Image *array) {
 }
 
 void *run(void *vargp) {
-    printf("Thread ID: %d\n", 0);
+    runFile("c.py");
     return NULL;
 }
 
 void *other(void *vargp) {
-    printf("Thread ID: %d\n", 0);
+    while (1) {
+        FILE *fp = fopen("window.txt", "r");
+
+        char *dirText = malloc(sizeof(char) * MAX_LINE);
+        char *topicText = malloc(sizeof(char) * MAX_LINE);
+
+        char *searchPressed = malloc(sizeof(char) * MAX_LINE);
+        char *addImagePressed = malloc(sizeof(char) * MAX_LINE);
+
+        char *configText = malloc(sizeof(char) * MAX_LINE);
+
+        fgets(topicText, MAX_LINE, fp);
+        fgets(dirText, MAX_LINE, fp);
+
+        fgets(searchPressed, MAX_LINE, fp);
+        fgets(addImagePressed, MAX_LINE, fp);
+
+        fgets(configText, MAX_LINE, fp);
+
+        if (searchPressed == "1") {
+            printf("Search pressed\n");
+        }
+        
+        if (addImagePressed == "1") {
+            printf("Add Image pressed\n");
+        }
+
+        fclose(fp);
+    }
     return NULL;
 }
 
