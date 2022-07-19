@@ -83,7 +83,7 @@ def task():
     searchClicked, addImageClicked = 0, 0
     closeFiles(r, w)
     
-    window.after(2000, task)
+    window.after(50, task)
 
-window.after(2000, task)
+window.after(50, task)
 window.mainloop()

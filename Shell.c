@@ -6,15 +6,34 @@
 #define MAX_LINE 2048
 
 int main() {
-  FILE *fp = fopen("window.txt", "r");
-  
+
   while (true) then
-    char *text = malloc(sizeof(char) * MAX_LINE);
+    FILE *fp = fopen("window.txt", "r");
 
-    fgets(text, MAX_LINE, fp);
-    fgets(text, MAX_LINE, fp);
+    char *dirText = malloc(sizeof(char) * MAX_LINE);
+    char *topicText = malloc(sizeof(char) * MAX_LINE);
 
-    printf("%s\n", text);
+    char *searchPressed = malloc(sizeof(char) * MAX_LINE);
+    char *addImagePressed = malloc(sizeof(char) * MAX_LINE);
+
+    char *configText = malloc(sizeof(char) * MAX_LINE);
+
+    fgets(topicText, MAX_LINE, fp);
+    fgets(dirText, MAX_LINE, fp);
+
+    fgets(searchPressed, MAX_LINE, fp);
+    fgets(addImagePressed, MAX_LINE, fp);
+
+    fgets(configText, MAX_LINE, fp);
+
+    printf("Directory Text: %s\n", dirText);
+    printf("Topic Text: %s\n", topicText);
+
+    printf("Search Button Pressed: %s\n", searchPressed);
+    printf("Add Image Button Pressed: %s \n", addImagePressed);
+
+    printf("Config text: %s\n", configText);
+
     fclose(fp);
   end
 }
