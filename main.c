@@ -17,8 +17,8 @@ char buffer[MAX_LINE]; // Global variable
 #include <pthread.h> // Threading Library
 #include <string.h> // String Library
 
-#include "stb_image.h" // Main Imaging Library
-#include "PythonRunner.h" // A Library that runs Python Code
+#include "Headers/stb_image.h" // Main Imaging Library
+#include "Headers/PythonRunner.h" // Python code runner
 
 // Type Definitions
 typedef unsigned char byte;
