@@ -314,10 +314,18 @@ void *other(void *vargp) {
     return NULL;
 }
 
+void updateImages() {
+    FILE *fl = fopen("saves.txt", "r"); 
+
+    Images = readStructFromFile(fl);
+
+    fclose(fl);
+}
+
 int main() {
     pthread_t thread0;
     pthread_t thread1;
-    
+
     pthread_create(&thread0, NULL, run, NULL);
     pthread_create(&thread1, NULL, other, NULL);
 
