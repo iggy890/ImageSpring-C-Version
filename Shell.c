@@ -26,13 +26,16 @@ int main() {
 
     fgets(configText, MAX_LINE, fp);
 
-    printf("Directory Text: %s\n", dirText);
-    printf("Topic Text: %s\n", topicText);
+    //printf("Directory Text: %s\n", dirText);
+    //printf("Topic Text: %s\n", topicText);
 
-    printf("Search Button Pressed: %s\n", searchPressed);
-    printf("Add Image Button Pressed: %s \n", addImagePressed);
+    //printf("Search Button Pressed: %s\n", searchPressed);
+    if (searchPressed == "1") then
+      printf("Search pressed\n");
+    end
+    //printf("Add Image Button Pressed: %s \n", addImagePressed);
 
-    printf("Config text: %s\n", configText);
+    //printf("Config text: %s\n", configText);
 
     fclose(fp);
   end

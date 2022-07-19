@@ -26,5 +26,7 @@ typedef int _bool;
 #define then {
 #define end }
 
+#define is ==
+
 #define elseif else if
 #define elif else if

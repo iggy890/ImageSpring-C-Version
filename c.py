@@ -31,9 +31,11 @@ topic = Entry(window, width=30)
 topic.grid(row=2, column=1)
 
 def searchClick():
+    global searchClicked
     searchClicked = 1
 
 def addImageClick():
+    global addImageClicked
     addImageClicked = 1
 
 search = Button(window, text="Search", command=searchClick)
@@ -77,13 +79,14 @@ def task():
     writeText = (writeText + f"\n{searchClicked}")
     writeText = (writeText + f"\n{addImageClicked}")
     writeText = (writeText + f"\n{c}")
+    print(searchClicked)
 
     w.write(writeText)
 
     searchClicked, addImageClicked = 0, 0
     closeFiles(r, w)
     
-    window.after(50, task)
+    window.after(1, task)
 
-window.after(50, task)
+window.after(1, task)
 window.mainloop()
