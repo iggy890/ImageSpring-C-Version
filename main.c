@@ -5,7 +5,7 @@ ImageSpring Version 1
 #define STB_IMAGE_IMPLEMENTATION // Macro for stb_image.h
 #define PythonRunner_ON // Macro for PythonRunner.h
 #define len(x) (sizeof(&x) / sizeof((x)[0])) // Get the size of an array
-#define SAVES_DIR "saves.txt" // The Directory of the saves
+#define SAVES_DIR "saves.bin" // The Directory of the saves
 #define FILENAME_SIZE 1024 // Required for readLine()
 #define MAX_LINE 2048 // Required for readLine()
 
@@ -104,17 +104,70 @@ void writeToFile(FILE *fl, char text[]) {
 }
 
 // Write a struct to file
-void writeStructToFile(FILE *structBin, Image *images) {
-    if (structBin != NULL) {
-        fwrite(images, sizeof(Image), len(images), structBin); // Write the array of structs to the file
-    }
+int writeStructToFile(char *filename, Image *data, int total) {
+    // file pointer variable
+    FILE *file;
+    
+    // attempt to open the file with name filename, in 'write to binary file mode'
+    file = fopen(filename, "wb");
+    
+    // return false if there was an error opening the file
+    if (file == NULL) return 0;
+    
+    // write the total number of structs in the array to the file, return false 
+    // if the function fails to write the data successfully
+    if (fwrite(&total, sizeof(int), 1, file) != 1)
+        return 0;
+    
+    // write the structs in the array to the file, return false if the function 
+    // fails to write the data successfully
+    if (fwrite(data, sizeof(Image), total, file) != total)
+        return 0;
+    
+    // close access to the file, return false if this fails
+    if (fclose(file) == EOF) return 0; 
+    
+    // if everything is successful return true
+    return 1;
 }
 
-Image *readStructFromFile(FILE *fl) {
-    Image *ims = malloc(sizeof(Image) * MAX_LINE);
-    fread(ims, sizeof(Image), 1, fl);
-
-    return ims;
+Image *readStructFromFile(char *filename, int *total) {
+    FILE *file;
+    
+    // open the file with name filename in 'read a binary file mode'
+    file = fopen(filename, "rb");
+    
+    // if fopen() failed to open the file, return NULL 
+    if (file == NULL) return NULL;
+    
+    // read the total number of Image struct data records stored in the file 
+    // into the total pointer parameter
+    if (fread(total, sizeof(int), 1, file) != 1) 
+        return NULL;
+    
+    // allocate enough space to store the array of Image structs
+    Image *data = malloc(sizeof(Image) * *total);
+    
+    // read the data from the file into the block of memory we have allocated, 
+    // return NULL if the read was unsuccessful and free the dynamically allocated
+    // memory to prevent a memory leak
+    if (fread(data, sizeof(Image), *total, file) != *total)
+    {
+        free(data);
+        return NULL;
+    }
+    
+    // close the file, if this is unsuccessful free the dynamically allocated 
+    // memory to prevent a memory leak and return NULL 
+    if (fclose(file) == EOF) 
+    {
+        free(data);
+        return NULL;
+    }
+    
+    // if everything is successful, return the pointer to the dynamically 
+    // allocated array of Image structs
+    return data;
 }
 
 // Read all the contents of the file
@@ -199,11 +252,13 @@ float compareImageSlow(Image img1, Image img2) {
 }
 
 void updateImages() {
-    FILE *fl = fopen("saves.txt", "r"); 
+    FILE *flLen = fopen("savesLen.txt", "r");
 
-    Images = readStructFromFile(fl);
+    int total;
+    fread(&total, 1, 1, flLen);
+    fclose(flLen);
 
-    fclose(fl);
+    Images = readStructFromFile("saves.bin", &total);
 }
 
 // End of Image functions
@@ -282,6 +337,12 @@ Result search(Image img, Image *array) {
     return r; // Return r
 }
 
+int addImage(Image image) {
+    Images = malloc(len(Images) + sizeof(Image));
+    Images[len(Images) + 1] = image;
+    return 0;
+}
+
 void *run(void *vargp) {
     runFile("c.py");
     return NULL;
@@ -294,8 +355,8 @@ void *other(void *vargp) {
         char *dirText = malloc(sizeof(char) * MAX_LINE);
         char *topicText = malloc(sizeof(char) * MAX_LINE);
 
-        char *searchPressed = malloc(sizeof(char) * MAX_LINE);
-        char *addImagePressed = malloc(sizeof(char) * MAX_LINE);
+        char *searchPressed = malloc(1);
+        char *addImagePressed = malloc(1);
 
         char *configText = malloc(sizeof(char) * MAX_LINE);
 
@@ -307,14 +368,12 @@ void *other(void *vargp) {
 
         fgets(configText, MAX_LINE, fp);
 
-        //printf("%s", searchPressed);
-        if (searchPressed == "1") {
-            //printf("Search pressed\n");
-            long current = 0L;
+        printf("%c\n", *searchPressed);
+        if (*searchPressed == "1") {
+            printf("Search pressed\n");
             updateImages();
 
             Result result = search(stbi_load(dirText, 3), Images);
-
         }
         
         fclose(fp);

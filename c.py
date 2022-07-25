@@ -85,7 +85,7 @@ def task():
 
     addImageClicked, searchClicked = 0, 0
     
-    window.after(100, task)
+    window.after(25, task)
 
-window.after(100, task)
+window.after(25, task)
 window.mainloop()
