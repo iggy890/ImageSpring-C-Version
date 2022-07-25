@@ -13,9 +13,9 @@ A speedy Image recognisor rewritten in C
 
 ## File table:
 
-File | stb_image.h | c.py | main.c | PythonRunner.h | SyntaxChanges.h | Shell.c
---- | --- | --- | --- | --- | --- | ---
-Speed Improvements | No | Yes | No | No | No | Yes
-Edits Needed | Yes | Yes | Yes | No | Yes | Yes
-Size | 259 KB | 1.86 KB | 8.93 KB | 420 Bytes | 369 Bytes | 1.02 KB
-Lines | 7676 lines | 92 lines | 325 lines | 22 lines | 32 lines | 42 lines
+File | stb_image.h | c.py | main.c | PythonRunner.h | SyntaxChanges.h
+--- | --- | --- | --- | --- | ---
+Speed Improvements | No | Yes | No | No | No
+Edits Needed | Yes | Yes | Yes | No | Yes
+Size | 259 KB | 1.86 KB | 8.93 KB | 420 Bytes | 369 Bytes
+Lines | 7676 lines | 92 lines | 325 lines | 22 lines | 32 lines
