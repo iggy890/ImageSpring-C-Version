@@ -1,4 +1,6 @@
 #define import include
+#define var define
+#define def define
 
 typedef int _bool;
 
@@ -6,7 +8,7 @@ typedef int _bool;
 #define Bool _bool
 
 #define boolean _bool
-#define Boolean
+#define Boolean _bool
 
 #define true 1
 #define false 0

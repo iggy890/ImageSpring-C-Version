@@ -9,8 +9,6 @@ ImageSpring Version 1
 #define FILENAME_SIZE 1024 // Required for readLine()
 #define MAX_LINE 2048 // Required for readLine()
 
-Image *Images; // Global variable
-
 #include <stdio.h> // Standard Studio Library
 #include <float.h> // Floating Point Library
 
@@ -27,6 +25,8 @@ typedef struct string string;
 typedef struct Result Result;
 typedef struct List List;
 typedef struct uList uList;
+
+Image *Images; // Global variable
 
 // Structs
 
@@ -104,11 +104,9 @@ void writeToFile(FILE *fl, char text[]) {
 }
 
 // Write a struct to file
-void writeStructToFile(FILE *structBin, Image *Images) {
-    int a = len(Images); // Get the length of the pointer Images
-
+void writeStructToFile(FILE *structBin, Image *images) {
     if (structBin != NULL) {
-        fwrite(Images, sizeof(Image), 1, structBin); // Write the array of structs to the file
+        fwrite(images, sizeof(Image), len(images), structBin); // Write the array of structs to the file
     }
 }
 
@@ -198,6 +196,14 @@ float compareImageSlow(Image img1, Image img2) {
         }
     }
     return (w * h) * 2 / c * 100; // Convert to % value
+}
+
+void updateImages() {
+    FILE *fl = fopen("saves.txt", "r"); 
+
+    Images = readStructFromFile(fl);
+
+    fclose(fl);
 }
 
 // End of Image functions
@@ -301,25 +307,19 @@ void *other(void *vargp) {
 
         fgets(configText, MAX_LINE, fp);
 
+        //printf("%s", searchPressed);
         if (searchPressed == "1") {
-            printf("Search pressed\n");
+            //printf("Search pressed\n");
+            long current = 0L;
+            updateImages();
+
+            Result result = search(stbi_load(dirText, 3), Images);
+
         }
         
-        if (addImagePressed == "1") {
-            printf("Add Image pressed\n");
-        }
-
         fclose(fp);
     }
     return NULL;
-}
-
-void updateImages() {
-    FILE *fl = fopen("saves.txt", "r"); 
-
-    Images = readStructFromFile(fl);
-
-    fclose(fl);
 }
 
 int main() {

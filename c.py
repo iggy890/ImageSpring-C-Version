@@ -79,14 +79,13 @@ def task():
     writeText = (writeText + f"\n{searchClicked}")
     writeText = (writeText + f"\n{addImageClicked}")
     writeText = (writeText + f"\n{c}")
-    print(searchClicked)
 
     w.write(writeText)
-
-    searchClicked, addImageClicked = 0, 0
     closeFiles(r, w)
-    
-    window.after(1, task)
 
-window.after(1, task)
+    addImageClicked, searchClicked = 0, 0
+    
+    window.after(100, task)
+
+window.after(100, task)
 window.mainloop()

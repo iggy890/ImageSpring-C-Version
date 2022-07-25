@@ -1,3 +1,4 @@
+#pragma once
 #ifdef PythonRunner_ON
 
 #include <stdio.h>
