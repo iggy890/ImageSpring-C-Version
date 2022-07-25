@@ -5,7 +5,7 @@ ImageSpring Version 1
 #define STB_IMAGE_IMPLEMENTATION // Macro for stb_image.h
 #define PythonRunner_ON // Macro for PythonRunner.h
 #define len(x) (sizeof(&x) / sizeof((x)[0])) // Get the size of an array
-#define SAVES_DIR "saves.bin" // The Directory of the saves
+#define SAVES_DIR "Headers/saves.bin" // The Directory of the saves
 #define FILENAME_SIZE 1024 // Required for readLine()
 #define MAX_LINE 2048 // Required for readLine()
 
@@ -252,13 +252,13 @@ float compareImageSlow(Image img1, Image img2) {
 }
 
 void updateImages() {
-    FILE *flLen = fopen("savesLen.txt", "r");
+    FILE *flLen = fopen("Saves/savesLen.txt", "r");
 
     int total;
     fread(&total, 1, 1, flLen);
     fclose(flLen);
 
-    Images = readStructFromFile("saves.bin", &total);
+    Images = readStructFromFile("Saves/saves.bin", &total);
 }
 
 // End of Image functions
@@ -350,7 +350,7 @@ void *run(void *vargp) {
 
 void *other(void *vargp) {
     while (1) {
-        FILE *fp = fopen("window.txt", "r");
+        FILE *fp = fopen("Saves/window.txt", "r");
 
         char *dirText = malloc(sizeof(char) * MAX_LINE);
         char *topicText = malloc(sizeof(char) * MAX_LINE);
