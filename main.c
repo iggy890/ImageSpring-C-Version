@@ -344,6 +344,7 @@ void *run(void *vargp) {
 
 
 void *other(void *vargp) {
+    int val = 0;
     while (1) {
         FILE *fp = fopen("Saves/window.txt", "r");
 
@@ -364,10 +365,15 @@ void *other(void *vargp) {
         fgets(configText, MAX_LINE, fp);
 
         if (strcmp(searchPressed, "1\n") == EXIT_SUCCESS) {
-            printf("Search pressed\n");
+            val++;
+            printf("Search pressed: %i\n", val);
             updateImages();
 
             Result result = search(stbi_load(dirText, 3), Images);
+        }
+
+        if (strcmp(addImagePressed, "1\n") == EXIT_SUCCESS) {
+            printf("AddImage pressed\n");
         }
         
         fclose(fp);
