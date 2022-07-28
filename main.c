@@ -5,7 +5,7 @@ ImageSpring Version 1
 #define STB_IMAGE_IMPLEMENTATION // Macro for stb_image.h
 #define PythonRunner_ON // Macro for PythonRunner.h
 #define len(x) (sizeof(&x) / sizeof((x)[0])) // Get the size of an array
-#define SAVES_DIR "Headers/saves.bin" // The Directory of the saves
+#define SAVES_DIR "Saves/saves.bin" // The Directory of the saves
 #define FILENAME_SIZE 1024 // Required for readLine()
 #define MAX_LINE 2048 // Required for readLine()
 
@@ -14,6 +14,9 @@ ImageSpring Version 1
 
 #include <pthread.h> // Threading Library
 #include <string.h> // String Library
+
+#include <unistd.h> // Needed for sleep()
+#include <malloc/_malloc.h> // Needed for malloc()
 
 #include "Headers/stb_image.h" // Main Imaging Library
 #include "Headers/PythonRunner.h" // Python code runner
@@ -195,17 +198,8 @@ Pixel getPixel(Image image, int x, int y) {
     return r; // Return the pixel value
 }
 
-// Compares 3 values
-double fancyClose(int num, int min, int max) {
-    if (num <= (max / 2)) { // Check if the num value is lower or equal to the midpoint
-        return num - min;
-    }
-    else;
-        return max - num;
-}
-
 // Checks if num is higher than min and lower than max
-int close(int num, int min, int max) {
+int near(int num, int min, int max) {
     return num >= min && num <= max;
 }
 
@@ -226,7 +220,7 @@ float compareImage(Image img1, Image img2) {
     int h = lowest(img1.height, img2.height); // Lowest height
 
     for (int i; i > (w * h) * 3; i++) {
-        c = c + close(img1.pixels[i], img2.pixels[i] - 50, img2.pixels[i] + 50); // Compare the two pixel values
+        c = c + near(img1.pixels[i], img2.pixels[i] - 50, img2.pixels[i] + 50); // Compare the two pixel values
     }
 
     return (w * h) * 3 / c * 100; // Convert into % value
@@ -243,9 +237,9 @@ float compareImageSlow(Image img1, Image img2) {
             Pixel p = getPixel(img1, x, y);
             Pixel p2 = getPixel(img2, x, y);
             // Compare the Red, Green and Blue Channels of one Image and another
-            c = c + close(p.r, p2.r - 50, p2.r + 50);
-            c = c + close(p.g, p2.g - 50, p2.g + 50);
-            c = c + close(p.b, p2.b - 50, p2.b + 50);
+            c = c + near(p.r, p2.r - 50, p2.r + 50);
+            c = c + near(p.g, p2.g - 50, p2.g + 50);
+            c = c + near(p.b, p2.b - 50, p2.b + 50);
         }
     }
     return (w * h) * 2 / c * 100; // Convert to % value
@@ -348,6 +342,7 @@ void *run(void *vargp) {
     return NULL;
 }
 
+
 void *other(void *vargp) {
     while (1) {
         FILE *fp = fopen("Saves/window.txt", "r");
@@ -368,8 +363,7 @@ void *other(void *vargp) {
 
         fgets(configText, MAX_LINE, fp);
 
-        printf("%c\n", *searchPressed);
-        if (*searchPressed == "1") {
+        if (strcmp(searchPressed, "1\n") == EXIT_SUCCESS) {
             printf("Search pressed\n");
             updateImages();
 
@@ -382,6 +376,7 @@ void *other(void *vargp) {
 }
 
 int main() {
+    
     pthread_t thread0;
     pthread_t thread1;
 
@@ -389,4 +384,5 @@ int main() {
     pthread_create(&thread1, NULL, other, NULL);
 
     pthread_exit(NULL);
+    
 }

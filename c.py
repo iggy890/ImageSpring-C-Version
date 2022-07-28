@@ -66,8 +66,8 @@ def closeFiles(read, write):
 
 def task():
     global searchClicked, addImageClicked
-    r = open("window.txt", "r")
-    w = open("window.txt", "w")
+    r = open("Saves/window.txt", "r")
+    w = open("Saves/window.txt", "w")
 
     c = r.readline(5)
 
@@ -85,7 +85,7 @@ def task():
 
     addImageClicked, searchClicked = 0, 0
     
-    window.after(25, task)
+    window.after(1, task)
 
-window.after(25, task)
+window.after(1, task)
 window.mainloop()
