@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 void runSimpleString(char *code) {
     FILE *temp = fopen("temp.py", "w");
@@ -12,10 +13,9 @@ void runSimpleString(char *code) {
     system("python3 temp.py && rm temp.py");
 }
 
-void runFile(char *filename) {
-    char *command = malloc(8 + sizeof(filename));
-    sprintf(command, "%s %s", "python3", filename);
-    system(command);
+void runFile(std::string filename) {
+    std::string command = "python3 " + filename;
+    system(command.c_str());
 }
 
 #endif

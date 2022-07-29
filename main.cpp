@@ -19,7 +19,7 @@ ImageSpring Version 1
 #include <malloc/_malloc.h> // Needed for malloc()
 
 #include "Headers/stb_image.h" // Main Imaging Library
-#include "Headers/PythonRunner.h" // Python code runner
+#include "Headers/PythonRunner.hpp" // Python code runner
 
 // Type Definitions
 typedef unsigned char byte;
@@ -149,7 +149,7 @@ Image *readStructFromFile(char *filename, int *total) {
         return NULL;
     
     // allocate enough space to store the array of Image structs
-    Image *data = malloc(sizeof(Image) * *total);
+    Image *data = new Image[*total];
     
     // read the data from the file into the block of memory we have allocated, 
     // return NULL if the read was unsuccessful and free the dynamically allocated
@@ -178,7 +178,7 @@ char *readFile(FILE *fl) {
     fseek(fl, 0, SEEK_END);
     long fsize = ftell(fl);
     fseek(fl, 0, SEEK_SET);
-    char *string = malloc(fsize + 1);
+    char *string = new char[fsize + 1];
     fread(string, fsize, 1, fl);
     string[fsize] = 0;
     return string;
@@ -332,13 +332,13 @@ Result search(Image img, Image *array) {
 }
 
 int addImage(Image image) {
-    Images = malloc(len(Images) + sizeof(Image));
+    Images = new Image[len(Images) + sizeof(Image)];
     Images[len(Images) + 1] = image;
     return 0;
 }
 
 void *run(void *vargp) {
-    runFile("c.py");
+    runFile((char*)"c.py");
     return NULL;
 }
 
@@ -348,11 +348,11 @@ void *other(void *vargp) {
     while (1) {
         FILE *fp = fopen("Saves/window.txt", "r");
 
-        char *dirText = malloc(sizeof(char) * MAX_LINE);
-        char *topicText = malloc(sizeof(char) * MAX_LINE);
+        char *dirText = new char[sizeof(char) * MAX_LINE];
+        char *topicText = new char[sizeof(char) * MAX_LINE];
 
-        char *searchPressed = malloc(1);
-        char *addImagePressed = malloc(1);
+        char *searchPressed = new char[1];
+        char *addImagePressed = new char[1];
 
         fgets(topicText, MAX_LINE, fp);
         fgets(dirText, MAX_LINE, fp);
