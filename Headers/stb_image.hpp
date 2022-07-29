@@ -1358,9 +1358,9 @@ static FILE *stbi__fopen(char const *filename, char const *mode)
 
 STBIDEF Image stbi_load(char *filename, int req_comp) {
    int x, y, comp;
+   Image r = {};
    FILE *f = stbi__fopen(filename, "rb");
-   Image r;
-   if (!f) return r;
+   if (!f) return n;
    r.pixels = stbi_load_from_file(f,&x
    ,&y,&comp,req_comp);
    fclose(f);

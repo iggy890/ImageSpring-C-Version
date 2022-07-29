@@ -9,53 +9,37 @@ ImageSpring Version 1
 #define FILENAME_SIZE 1024 // Required for readLine()
 #define MAX_LINE 2048 // Required for readLine()
 
-#include <stdio.h> // Standard Studio Library
-#include <float.h> // Floating Point Library
+#include <iostream> // Standard include for C++
+#include <fstream> // Default C++ Library for files
 
 #include <pthread.h> // Threading Library
-#include <string.h> // String Library
-
-#include <unistd.h> // Needed for sleep()
-#include <malloc/_malloc.h> // Needed for malloc()
+#include <string> // String Library
 
 #include "Headers/stb_image.h" // Main Imaging Library
 #include "Headers/PythonRunner.hpp" // Python code runner
 
 // Type Definitions
-typedef unsigned char byte;
 typedef struct Pixel Pixel;
-typedef struct string string;
 typedef struct Result Result;
 typedef struct List List;
 typedef struct uList uList;
 
+using namespace std; // Namespace
 Image *Images; // Global variable
 
 // Structs
 
 // A Pixel Structure
 struct Pixel {
-    byte r; // Red Value
-    byte g; // Green Value
-    byte b; // Blue Value
+    unsigned char r; // Red Value
+    unsigned char g; // Green Value
+    unsigned char b; // Blue Value
 };
 
 // A List Structure
 struct List {
     int arraySize; // The array size
     int array[0]; // Create an int array
-};
-
-// A List structure with unsigned char members
-struct uList {
-    int arraySize; // The array size
-    byte array[0]; // Create an unsigned char array
-};
-
-// String structure
-struct string {
-    int size; // Text array length
-    char text[]; // Text array
 };
 
 // The Result structure used for outputing the results
@@ -68,16 +52,6 @@ struct Result {
 };
 
 // End of structs
-
-// Unconventional method of converting an unsigned char array to an int array
-List convertToInt(uList b) {
-    List a; // Create the List (array) a
-    for (int i; i <= len(b.array); i++) { // Loop through the unsigned char array
-        a.array[a.arraySize++] = (int)b.array[i]; // Convert the unsigned char value at position i to int
-    }
-
-    return a; // Return the converted array
-}
 
 // File functions
 
@@ -303,20 +277,6 @@ void quickSort(Result r, int first, int last) {
         quickSort(r, first, j-1);
         quickSort(r, j+1, last);
     }
-}
-
-// Get input from the user
-string input(char ins[]) {
-    string r; // Create the return value
-    char out; // Create charactor output
-
-    printf("%s", ins); // Output the value names "ins"
-    scanf("%c", &out); // Get the value and set it to out
-    
-    r.size = sizeof(out); // Set the size of the string
-    r.text[r.size] = out; // Copy the char named out to the string r
-
-    return r; // Return the string named r
 }
 
 Result search(Image img, Image *array) {
