@@ -1,4 +1,5 @@
-from tkinter import Tk, Label, Button, Entry, TkVersion
+from tkinter import Tk, Label, Button, Entry
+from threading import Thread
 
 window = Tk()
 window.title("ImageSpring (C Version)")
@@ -19,12 +20,14 @@ def addImageClick():
 search, addImage = Button(window, text="Search", command=searchClick), Button(window, text="Add Image", command=addImageClick)
 search.grid(row=2, column=3), addImage.grid(row=2, column=4)
 
-def task():
-    global sc, ac
+def read_open_close():
     r = open("Saves/windowEdits.txt", "r")
-    w = open("Saves/window.txt", "w")
-    
     result.configure(text=r.read())
+    r.close()
+
+def write_open_close():
+    global sc, ac
+    w = open("Saves/window.txt", "w")
 
     wText = dir.get()
     wText = f"{wText}\n{topic.get()}"
@@ -32,12 +35,16 @@ def task():
     wText = f"{wText}\n{ac}"
 
     w.write(wText)
-    r.close()
     w.close()
-
     ac, sc = 0, 0
-    
+
+def task():
+    t = Thread(target=read_open_close)
+    t.start()
+    t2 = Thread(target=write_open_close())
+    t2.start()
     window.after(0, task)
+
 
 window.after(0, task)
 window.mainloop()

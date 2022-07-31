@@ -378,7 +378,6 @@ void *other(void *vargp) {
 }
 
 int main() {
-    
     pthread_t thread0;
     pthread_t thread1;
 
@@ -386,5 +385,4 @@ int main() {
     pthread_create(&thread1, NULL, other, NULL);
 
     pthread_exit(NULL);
-    
 }
