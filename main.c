@@ -373,6 +373,12 @@ void *other(void *vargp) {
         }
         
         fclose(fp);
+
+        free(dirText);
+        free(topicText);
+
+        free(searchPressed);
+        free(addImagePressed);
     }
     return NULL;
 }
