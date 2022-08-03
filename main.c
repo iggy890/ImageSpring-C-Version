@@ -203,13 +203,31 @@ int near(int num, int min, int max) {
     return num >= min && num <= max;
 }
 
+// Returns the positive version of the given number
+int positive(int val) {
+    if (val < 0) {
+        return -val;
+    } else {
+        return val;
+    }
+}
+
+// New and improved version of fancyClose()
+float fancyClose(int num, int min, int max) {
+    if (num <= min || max <= num) {
+        return 0;
+    } else {
+        return positive(num - max / 2) / (max / 2);
+    }
+}
+
 // Find the lowest value
 int lowest(int num, int num2) {
     if (num <= num2) { // Check which value is lower
         return num; // Num is the lowest number and return it
-    }
-    else;
+    } else {
         return num2; // Num2 is the lowest number and return it
+    }
 }
 
 // Compares 2 input Images img1 and img2 both inputs must be of Type Image (See line 370 in stb_image.h)
@@ -226,7 +244,7 @@ float compareImage(Image img1, Image img2) {
     return (w * h) * 3 / c * 100; // Convert into % value
 }
 
-// Slower version of compareImage() see line 83
+// Slower version of compareImage() see line 216
 float compareImageSlow(Image img1, Image img2) {
     float c; // Define the certainty
     int w = lowest(img1.width, img2.width); // Find the lowest width
