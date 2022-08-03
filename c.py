@@ -22,7 +22,6 @@ def read_open_close():
     r = open("Saves/windowEdits.txt", "r")
     result.configure(text=r.read())
     r.close()
-    print("read")
 
 def write_open_close():
     w = open("Saves/window.txt", "w")
@@ -39,11 +38,8 @@ def write_open_close():
     val['ac'], val['sc'] = 0, 0
 
 def task():
-    t = Thread(target=read_open_close)
-    t2 = Thread(target=write_open_close)
-    t.start()
-    t2.start()
-    del t, t2
+    read_open_close()
+    write_open_close()
     window.after(1, task)
 
 window.after(0, task)
