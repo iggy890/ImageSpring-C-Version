@@ -351,14 +351,16 @@ void *other(void *vargp) {
         char *dirText = malloc(sizeof(char) * MAX_LINE);
         char *topicText = malloc(sizeof(char) * MAX_LINE);
 
-        char *searchPressed = malloc(1);
-        char *addImagePressed = malloc(1);
+        char *searchPressed = malloc(2);
+        char *addImagePressed = malloc(2);
 
-        fgets(topicText, MAX_LINE, fp);
         fgets(dirText, MAX_LINE, fp);
+        fgets(topicText, MAX_LINE, fp);
 
-        fgets(searchPressed, MAX_LINE, fp);
-        fgets(addImagePressed, MAX_LINE, fp);
+        fgets(searchPressed, 3, fp);
+        fgets(addImagePressed, 3, fp);
+
+        //printf("%s\n%s\n", dirText, topicText);
 
         if (strcmp(searchPressed, "1\n") == EXIT_SUCCESS) {
             val++;
@@ -368,7 +370,7 @@ void *other(void *vargp) {
             Result result = search(stbi_load(dirText, 3), Images);
         }
 
-        if (strcmp(addImagePressed, "1\n") == EXIT_SUCCESS) {
+        if (strcmp(addImagePressed, "1") == EXIT_SUCCESS) {
             printf("AddImage pressed\n");
         }
         

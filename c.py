@@ -25,13 +25,12 @@ def read_open_close():
 
 def write_open_close():
     w = open("Saves/window.txt", "w")
-
     val = globals()
 
     wText = dir.get()
     wText = f"{wText}\n{topic.get()}"
     wText = f"{wText}\n{val['sc']}"
-    wText = f"{wText}\n{val['sc']}"
+    wText = f"{wText}\n{val['ac']}"
 
     w.write(wText)
     w.close()
@@ -42,5 +41,5 @@ def task():
     write_open_close()
     window.after(1, task)
 
-window.after(0, task)
+window.after(1, task)
 window.mainloop()
