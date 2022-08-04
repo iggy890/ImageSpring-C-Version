@@ -342,7 +342,7 @@ Result search(Image img, Image *array) {
 
     for (int i; i <= len(array); i++) { // Loop through the provided List of Images
         r.pers[r.persLength++] = compareImage(img, array[i]); // Compare the Image array[i] with Image img
-        r.topics[r.topicsLength++] = array[i].topic; // Add the Image array[i]'s topic to r.topics
+        r.topics[r.topicsLength++] = *array[i].topic; // Add the Image array[i]'s topic to r.topics
     }
     quickSort(r, 0, sizeof(r.pers)); // Sort the variable r
 
@@ -362,43 +362,49 @@ void *run(void *vargp) {
 
 
 void *other(void *vargp) {
-    int val = 0;
     while (1) {
         FILE *fp = fopen("Saves/window.txt", "r");
 
         char *dirText = malloc(sizeof(char) * MAX_LINE);
-        char *topicText = malloc(sizeof(char) * MAX_LINE);
+        char *topic = malloc(sizeof(char) * MAX_LINE);
 
-        char *searchPressed = malloc(2);
-        char *addImagePressed = malloc(2);
+        char *searchPressed = malloc(1);
+        char *addImagePressed = malloc(1);
 
         fgets(dirText, MAX_LINE, fp);
-        fgets(topicText, MAX_LINE, fp);
+        fgets(topic, MAX_LINE, fp);
 
         fgets(searchPressed, 3, fp);
         fgets(addImagePressed, 3, fp);
 
-        //printf("%s\n%s\n", dirText, topicText);
-
         if (strcmp(searchPressed, "1\n") == EXIT_SUCCESS) {
-            val++;
-            printf("Search pressed: %i\n", val);
             updateImages();
 
             Result result = search(stbi_load(dirText, 3), Images);
+            for (int i; i < result.persLength; i++) {
+                printf("Image: %c %f%%\n", result.topics[i], result.pers[i]);
+            }
         }
 
         if (strcmp(addImagePressed, "1") == EXIT_SUCCESS) {
-            printf("AddImage pressed\n");
+            updateImages();
+
+            Image a = stbi_load(dirText, 3);
+            a.topic = topic;
+            addImage(a);
+
+            writeStructToFile(SAVES_DIR, Images, len(Images));
         }
         
         fclose(fp);
 
         free(dirText);
-        free(topicText);
+        free(topic);
 
         free(searchPressed);
         free(addImagePressed);
+
+        usleep(200);
     }
     return NULL;
 }

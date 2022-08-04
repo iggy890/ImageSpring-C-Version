@@ -32,3 +32,6 @@ typedef int _bool;
 
 #define elseif else if
 #define elif else if
+
+#define pow(n, n2) n **= n2
+#define power(n, n2) pow(n, n2)

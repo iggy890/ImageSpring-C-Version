@@ -373,7 +373,7 @@ typedef struct Image Image;
 
 struct Image {
    int width, height, channels;
-   char topic;
+   char *topic;
    unsigned char *pixels;
 };
 
