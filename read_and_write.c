@@ -34,10 +34,8 @@ int writeStructToFile(char *filename, Image *data) {
 }
 
 Image *readStructFromFile(char *filename) {
-    FILE *file;
-    
     // open the file with name filename in 'read a binary file mode'
-    file = fopen(filename, "rb");
+    FILE *file = fopen(filename, "rb");
     
     // if fopen() failed to open the file, return NULL 
     if (file == NULL) return NULL; 
