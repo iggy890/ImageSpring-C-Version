@@ -9,11 +9,9 @@ int writeStructToFile(char *filename, Image *data) {
     
     // attempt to open the file with name filename, in 'write to binary file mode'
     file = fopen(filename, "wb");
-    fileLen = fopen("Saves/saves.txt", "w");
     
     // return false if there was an error opening the file
     if (file == NULL) return 0;
-    if (fileLen == NULL) return 0;
     
     int total = len(data);
 
@@ -35,27 +33,30 @@ int writeStructToFile(char *filename, Image *data) {
     return 0;
 }
 
-Image *readStructFromFile(char *filename, int *total) {
+Image *readStructFromFile(char *filename) {
     FILE *file;
     
     // open the file with name filename in 'read a binary file mode'
     file = fopen(filename, "rb");
     
     // if fopen() failed to open the file, return NULL 
-    if (file == NULL) return NULL;
+    if (file == NULL) return NULL; 
     
+    // Define the size of what we are going to read
+    int total;
+
     // read the total number of Image struct data records stored in the file 
     // into the total pointer parameter
-    if (fread(total, sizeof(int), 1, file) != 1) 
+    if (fread(&total, sizeof(int), 1, file) != 1) 
         return NULL;
     
     // allocate enough space to store the array of Image structs
-    Image *data = malloc(sizeof(Image) * *total);
+    Image *data = malloc(sizeof(Image) * total);
     
     // read the data from the file into the block of memory we have allocated, 
     // return NULL if the read was unsuccessful and free the dynamically allocated
     // memory to prevent a memory leak
-    if (fread(data, sizeof(Image), *total, file) != *total)
+    if (fread(data, sizeof(Image), total, file) != total)
     {
         free(data);
         return NULL;
@@ -93,8 +94,7 @@ int main() {
     a.topic = "deez nutz";
     if (writeStructToFile("Saves/saves.bin", &a)) {
         printf("Success\n\n");
-        int s = sizeof(Image);
-        Image a = *readStructFromFile("Saves/saves.bin", &s);
+        Image a = *readStructFromFile("Saves/saves.bin");
         printf("Width: %d\n", a.width);
         printf("%d\n", a.height);
 
