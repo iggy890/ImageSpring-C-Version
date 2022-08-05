@@ -7,7 +7,7 @@ window.geometry("800x400")
 
 lbl, lbl2, dir, topic, version, result, sc, ac = Label(window, text="Directory:"), Label(window, text="Topic:"), Entry(window, width=30), Entry(window, width=30), Label(window, text="Version: 1.0"), Label(window, text="Loading..."), 0, 0
 
-lbl.grid(row=1, column=1), lbl2.grid(row=1, column=2), dir.grid(row=2, column=2), topic.grid(row=2, column=1), version.grid(row=1, column=4), result.grid(column=1, row=10)
+lbl.grid(row=1, column=1), lbl2.grid(row=1, column=2), dir.grid(row=2, column=1), topic.grid(row=2, column=2), version.grid(row=1, column=4), result.grid(column=1, row=10)
 
 def searchClick():
     globals()['sc'] = 1

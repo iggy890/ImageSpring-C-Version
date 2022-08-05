@@ -1360,7 +1360,10 @@ STBIDEF Image stbi_load(char *filename, int req_comp) {
    int x, y, comp;
    FILE *f = stbi__fopen(filename, "rb");
    Image r;
-   if (!f) return r;
+   if (!f) {
+      printf("Error\n"); 
+      return r;
+   }
    r.pixels = stbi_load_from_file(f,&x
    ,&y,&comp,req_comp);
    fclose(f);

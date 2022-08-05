@@ -61,10 +61,10 @@ struct string {
 // The Result structure used for outputing the results
 struct Result {
     int persLength; // Pers array length
-    float pers[0]; // Pers (Percents) array creation
+    float pers[1000]; // Pers (Percents) array creation
 
     int topicsLength; // Topics array length
-    char topics[0]; // Topics array creation
+    char topics[2000]; // Topics array creation
 };
 
 // End of structs
@@ -132,6 +132,17 @@ int writeStructToFile(char *filename, Image *data, int total) {
     
     // if everything is successful return true
     return 1;
+}
+
+void print(Image *image) {
+    for (int i; i < len(image); i++) {
+        Image current = image[i];
+
+        printf("\nTopic:\t%s\n", current.topic);
+        printf("Width:\t%d\n", current.width);
+        printf("Height:\t%d\n", current.height);
+        printf("Channels:\t%d\n", current.channels);
+    }
 }
 
 Image *readStructFromFile(char *filename, int *total) {
@@ -351,7 +362,7 @@ Result search(Image img, Image *array) {
 
 int addImage(Image image) {
     Images = malloc(len(Images) + sizeof(Image));
-    Images[len(Images) + 1] = image;
+    Images[len(Images)] = image;
     return 0;
 }
 
@@ -388,10 +399,13 @@ void *other(void *vargp) {
 
         if (strcmp(addImagePressed, "1") == EXIT_SUCCESS) {
             updateImages();
-
+            printf("%s\n", dirText);
             Image a = stbi_load(dirText, 3);
             a.topic = topic;
             addImage(a);
+
+            print(Images);
+            printf("Ok: %d\n", a.width);
 
             writeStructToFile(SAVES_DIR, Images, len(Images));
         }
