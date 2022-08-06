@@ -107,9 +107,9 @@ void writeToFile(FILE *fl, char text[]) {
 }
 
 // Write a struct to file
-int writeStructToFile(char *filename, Image *data, int total) {
+int writeStructToFile(char *filename, Image *data) {
     // file pointer variable
-    FILE *file;
+    FILE *file, *fileLen;
     
     // attempt to open the file with name filename, in 'write to binary file mode'
     file = fopen(filename, "wb");
@@ -117,9 +117,11 @@ int writeStructToFile(char *filename, Image *data, int total) {
     // return false if there was an error opening the file
     if (file == NULL) return 0;
     
+    int total = len(data);
+
     // write the total number of structs in the array to the file, return false 
     // if the function fails to write the data successfully
-    if (fwrite(&total, sizeof(int), 1, file) != 1)
+    if (fwrite(&total, sizeof(int), 1, fileLen) != 1)
         return 0;
     
     // write the structs in the array to the file, return false if the function 
@@ -128,12 +130,14 @@ int writeStructToFile(char *filename, Image *data, int total) {
         return 0;
     
     // close access to the file, return false if this fails
-    if (fclose(file) == EOF) return 0; 
-    
+    if (fclose(file) == EOF) return 1; 
+    if (fclose(file) == EOF) return 1;
+
     // if everything is successful return true
-    return 1;
+    return 0;
 }
 
+// Prints a pointer array of type Image
 void print(Image *image) {
     for (int i; i < len(image); i++) {
         Image current = image[i];
@@ -145,36 +149,39 @@ void print(Image *image) {
     }
 }
 
-Image *readStructFromFile(char *filename, int *total) {
-    FILE *file;
-    
+// Reads a struct array of type Image from a given file
+Image *readStructFromFile(char *filename) {
     // open the file with name filename in 'read a binary file mode'
-    file = fopen(filename, "rb");
+    FILE *file = fopen(filename, "rb");
     
     // if fopen() failed to open the file, return NULL 
-    if (file == NULL) return NULL;
+    if (file == NULL) {
+        return NULL; 
+    }
     
+    // Define the size of what we are going to read
+    int total;
+
     // read the total number of Image struct data records stored in the file 
     // into the total pointer parameter
-    if (fread(total, sizeof(int), 1, file) != 1) 
+    if (fread(&total, sizeof(int), 1, file) != 1) {
         return NULL;
-    
+    }
+
     // allocate enough space to store the array of Image structs
-    Image *data = malloc(sizeof(Image) * *total);
+    Image *data = malloc(sizeof(Image) * total);
     
     // read the data from the file into the block of memory we have allocated, 
     // return NULL if the read was unsuccessful and free the dynamically allocated
     // memory to prevent a memory leak
-    if (fread(data, sizeof(Image), *total, file) != *total)
-    {
+    if (fread(data, sizeof(Image), total, file) != total) {
         free(data);
         return NULL;
     }
     
     // close the file, if this is unsuccessful free the dynamically allocated 
     // memory to prevent a memory leak and return NULL 
-    if (fclose(file) == EOF) 
-    {
+    if (fclose(file) == EOF) {
         free(data);
         return NULL;
     }
@@ -275,13 +282,7 @@ float compareImageSlow(Image img1, Image img2) {
 }
 
 void updateImages() {
-    FILE *flLen = fopen("Saves/savesLen.txt", "r");
-
-    int total;
-    fread(&total, 1, 1, flLen);
-    fclose(flLen);
-
-    Images = readStructFromFile("Saves/saves.bin", &total);
+    Images = readStructFromFile("Saves/saves.bin");
 }
 
 // End of Image functions
@@ -407,7 +408,7 @@ void *other(void *vargp) {
             print(Images);
             printf("Ok: %d\n", a.width);
 
-            writeStructToFile(SAVES_DIR, Images, len(Images));
+            writeStructToFile(SAVES_DIR, Images);
         }
         
         fclose(fp);
