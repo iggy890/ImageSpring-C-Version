@@ -142,7 +142,7 @@ void print(Image *image) {
     for (int i; i < len(image); i++) {
         Image current = image[i];
 
-        printf("\nTopic:\t%s\n", current.topic);
+        printf("Topic:\t%s\n", current.topic);
         printf("Width:\t%d\n", current.width);
         printf("Height:\t%d\n", current.height);
         printf("Channels:\t%d\n", current.channels);
@@ -386,6 +386,9 @@ void *other(void *vargp) {
         fgets(dirText, MAX_LINE, fp);
         fgets(topic, MAX_LINE, fp);
 
+        dirText[strcspn(dirText, "\n")] = 0;
+        topic[strcspn(topic, "\n")] = 0;
+
         fgets(searchPressed, 3, fp);
         fgets(addImagePressed, 3, fp);
 
@@ -400,15 +403,15 @@ void *other(void *vargp) {
 
         if (strcmp(addImagePressed, "1") == EXIT_SUCCESS) {
             updateImages();
-            printf("%s\n", dirText);
+            printf("%d\n", strcmp(dirText, "/Users/familyaccount/Desktop/yo.png"));
             Image a = stbi_load(dirText, 3);
             a.topic = topic;
             addImage(a);
 
             print(Images);
-            printf("Ok: %d\n", a.width);
+            printf("len: %lu\n", len(Images));
 
-            writeStructToFile(SAVES_DIR, Images);
+            //writeStructToFile(SAVES_DIR, Images);
         }
         
         fclose(fp);
