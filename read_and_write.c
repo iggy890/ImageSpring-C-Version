@@ -30,30 +30,59 @@ int writeStructToFile(char *filename, Image *data) {
 }
 
 Image *readStructFromFile(char *filename) {
-    // Open the specified file in the rb (read-binary mode)
-    FILE *fl = fopen(filename, "rb");
+    // Open the file with name filename in 'read a binary file mode'
+    FILE *file = fopen(filename, "rb");
+    
+    // Check if the file exists
+    if (file == NULL) {
+        // Since we know the file doesn't exist we can:
+        // Close the file:
+        fclose(file);
 
-    if (fl == NULL)
-        return NULL; // Return 1 if the file doesn't exist
+        // And return NULL
+        return NULL;
+    }
 
-    // Stores the size of the file
+    // Define the total size
     int total;
 
-    // Read the size of the file into the 'total' integer
-    fread(&total, sizeof(int), 1, fl);
+    // Read the file size into the total variable
+    fread(&total, sizeof(int), 1, file);
 
-    // Allocate the Image pointer
+    // Allocate the needed memory
     Image *data = malloc(sizeof(Image) * total);
 
-    // Read the file into the pointer
-    size_t readData = fread(data, sizeof(Image), total, fl);
-    
-    // Check if the file read the correct amount of values
-    if (readData != total)
+    // Read the file into the allocated variable
+    size_t readData = fread(data, sizeof(Image), total, file);
+
+    // Check if the amount data read is the same as the amount of data in the file
+    if (readData != total) {
+        // We have identified that there is a problem
+        // So now we free the allocated variable like so:
+        free(data);
+
+        // And we close the file:
+        fclose(file);
+
+        // And we then return NULL
         return NULL;
+    }
+
+    // If our code has reached here we can close the file:
+    fclose(file);
+
+    // And return the data
+    return data;
+}
+
+Image *read(char *filename) {
+    FILE *fl = fopen(filename, "rb");
+
+    Image *data = malloc(sizeof(Image) * INT8_MAX);
+    fread(data, sizeof(Image), INT8_MAX, fl);
 
     fclose(fl);
-
+    
     return data;
 }
 
@@ -73,21 +102,19 @@ int main() {
     a.width = 6;
     a.height = 9;
     a.channels = 4;
-    a.topic = "deez nutz";
+    a.topic = "deez";
+
+    writeStructToFile("Saves/saves.bin", &a);
+
+    Image *data = read("Saves/saves.bin");
     
-    FILE *fl = fopen("Saves/saves.bin", "rb");
+    Image current = data[0];
 
-    printf("%d\n", writeStructToFile("Saves/saves.bin", &a));
+    printf("Width: %d\n", current.width);
+    printf("Height: %d\n", current.height);
 
-    //printf("Success\n\n");
-    Image *data = malloc(sizeof(Image));
-    fread(data, sizeof(Image), 1, fl);
-
-    printf("Width: %d\n", data->width);
-    printf("Height: %d\n", data->height);
-
-    printf("Channels: %d\n", data->channels);
-    printf("Topic: %s\n", data->topic);
+    printf("Channels: %d\n", current.channels);
+    printf("Topic: %s\n", current.topic);
 
     free(data);
 }
