@@ -33,9 +33,6 @@ def write_open_close():
     val['ac'], val['sc'] = 0, 0
 
 def task():
-    read_open_close()
-    write_open_close()
-    window.after(1, task)
+    read_open_close(), write_open_close(), window.after(1, task)
 
-window.after(0, task)
-window.mainloop()
+window.after(0, task), window.mainloop()
