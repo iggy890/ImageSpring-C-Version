@@ -14,13 +14,11 @@ int writeStructToFile(char *filename, Image *data) {
     // Get the length of the data
     size_t dataSize = sizeof(data);
 
-    printf("size: %zu\n", dataSize);
-
     // Write the data to the file
     // And check if this is successful
-    size_t a = fwrite(data, sizeof(Image), dataSize, fl);
+    size_t writtenData = fwrite(data, sizeof(Image), dataSize, fl);
 
-    if (dataSize != a) {
+    if (dataSize != writtenData) {
         printf("error\n");
         return 1;
     }
@@ -28,51 +26,37 @@ int writeStructToFile(char *filename, Image *data) {
     fclose(fl);
     //free(data);
 
-    return a;
+    return 0;
 }
 
-/*
 Image *readStructFromFile(char *filename) {
-    // open the file with name filename in 'read a binary file mode'
-    FILE *file = fopen(filename, "rb");
-    
-    // if fopen() failed to open the file, return NULL 
-    if (file == NULL) return NULL; 
-    
-    // Define the size of what we are going to read
+    // Open the specified file in the rb (read-binary mode)
+    FILE *fl = fopen(filename, "rb");
+
+    if (fl == NULL)
+        return NULL; // Return 1 if the file doesn't exist
+
+    // Stores the size of the file
     int total;
 
-    // read the total number of Image struct data records stored in the file 
-    // into the total pointer parameter
-    if (fread(&total, sizeof(int), 1, file) != 0) 
-        return NULL;
-    
-    // allocate enough space to store the array of Image structs
-    Image *data = malloc(sizeof(Image) * total);
-    
-    // read the data from the file into the block of memory we have allocated, 
-    // return NULL if the read was unsuccessful and free the dynamically allocated
-    // memory to prevent a memory leak
-    size_t valuesRead = fread(data, sizeof(Image), total, file);
+    // Read the size of the file into the 'total' integer
+    fread(&total, sizeof(int), 1, fl);
 
-    if (valuesRead != total) {
-        printf("ok\n");
-        free(data);
-        return NULL;
-    }
+    // Allocate the Image pointer
+    Image *data = malloc(sizeof(Image) * total);
+
+    // Read the file into the pointer
+    size_t readData = fread(data, sizeof(Image), total, fl);
     
-    // close the file, if this is unsuccessful free the dynamically allocated 
-    // memory to prevent a memory leak and return NULL 
-    if (fclose(file) == EOF) {
-        free(data);
+    // Check if the file read the correct amount of values
+    if (readData != total)
         return NULL;
-    }
-    
-    // if everything is successful, return the pointer to the dynamically 
-    // allocated array of Image structs
+
+    fclose(fl);
+
     return data;
 }
-*/
+
 void print(Image *image) {
     for (int i; i < len(image); i++) {
         Image current = image[i];
@@ -91,15 +75,19 @@ int main() {
     a.channels = 4;
     a.topic = "deez nutz";
     
-    //FILE *fl = fopen("Saves/saves.bin", "wb");
-
-    //fwrite(&a, sizeof(Image), sizeof(a), fl);
+    FILE *fl = fopen("Saves/saves.bin", "rb");
 
     printf("%d\n", writeStructToFile("Saves/saves.bin", &a));
 
     //printf("Success\n\n");
-    Image b;
-    //Image b = *readStructFromFile("Saves/saves.bin");
-    //printf("Width: %d\n", b.width);
-    //printf("%d\n", b.height);
+    Image *data = malloc(sizeof(Image));
+    fread(data, sizeof(Image), 1, fl);
+
+    printf("Width: %d\n", data->width);
+    printf("Height: %d\n", data->height);
+
+    printf("Channels: %d\n", data->channels);
+    printf("Topic: %s\n", data->topic);
+
+    free(data);
 }

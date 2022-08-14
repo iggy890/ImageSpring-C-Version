@@ -1,13 +1,10 @@
 from tkinter import Tk, Label, Button, Entry
-from threading import Thread
 
 window = Tk()
 window.title("ImageSpring (C Version)")
 window.geometry("800x400")
 
-lbl, lbl2, dir, topic, version, result, sc, ac = Label(window, text="Directory:"), Label(window, text="Topic:"), Entry(window, width=30), Entry(window, width=30), Label(window, text="Version: 1.0"), Label(window, text="Loading..."), 0, 0
-
-lbl.grid(row=1, column=1), lbl2.grid(row=1, column=2), dir.grid(row=2, column=1), topic.grid(row=2, column=2), version.grid(row=1, column=4), result.grid(column=1, row=10)
+lbl, lbl2, dir, topic, version, result, sc, ac = Label(window, text="Directory:").grid(row=1, column=1), Label(window, text="Topic:").grid(row=1, column=2), Entry(window, width=30).grid(row=2, column=1), Entry(window, width=30).grid(row=2, column=2), Label(window, text="Version: 1.0").grid(row=1, column=4), Label(window, text="Loading...").grid(column=1, row=10), 0, 0
 
 def searchClick():
     globals()['sc'] = 1
@@ -15,8 +12,7 @@ def searchClick():
 def addImageClick():
     globals()['ac'] = 1
 
-search, addImage = Button(window, text="Search", command=searchClick), Button(window, text="Add Image", command=addImageClick)
-search.grid(row=2, column=3), addImage.grid(row=2, column=4)
+search, addImage = Button(window, text="Search", command=searchClick).grid(row=2, column=3), Button(window, text="Add Image", command=addImageClick).grid(row=2, column=4)
 
 def read_open_close():
     r = open("Saves/windowEdits.txt", "r")
@@ -41,5 +37,5 @@ def task():
     write_open_close()
     window.after(1, task)
 
-window.after(1, task)
+window.after(0, task)
 window.mainloop()
