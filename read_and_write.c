@@ -29,61 +29,50 @@ int writeStructToFile(char *filename, Image *data) {
     return 0;
 }
 
-Image *readStructFromFile(char *filename) {
-    // Open the file with name filename in 'read a binary file mode'
-    FILE *file = fopen(filename, "rb");
-    
-    // Check if the file exists
-    if (file == NULL) {
-        // Since we know the file doesn't exist we can:
-        // Close the file:
-        fclose(file);
-
-        // And return NULL
-        return NULL;
+// Checks if a struct of type Image is empty
+int isEmpty(Image i) {
+    if (i.width == 0 && i.height == 0 && i.channels == 0) {
+        return 1;
+    } else {
+        return 0;
     }
-
-    // Define the total size
-    int total;
-
-    // Read the file size into the total variable
-    fread(&total, sizeof(int), 1, file);
-
-    // Allocate the needed memory
-    Image *data = malloc(sizeof(Image) * total);
-
-    // Read the file into the allocated variable
-    size_t readData = fread(data, sizeof(Image), total, file);
-
-    // Check if the amount data read is the same as the amount of data in the file
-    if (readData != total) {
-        // We have identified that there is a problem
-        // So now we free the allocated variable like so:
-        free(data);
-
-        // And we close the file:
-        fclose(file);
-
-        // And we then return NULL
-        return NULL;
-    }
-
-    // If our code has reached here we can close the file:
-    fclose(file);
-
-    // And return the data
-    return data;
 }
 
+// Read an array of structs from a specified file
 Image *read(char *filename) {
+    // Open the specified file in rb (read-binary)
     FILE *fl = fopen(filename, "rb");
 
-    Image *data = malloc(sizeof(Image) * INT8_MAX);
-    fread(data, sizeof(Image), INT8_MAX, fl);
+    // Allocate enough memory to read the data from the file
+    Image *data = malloc(sizeof(Image) * INT16_MAX);
 
+    // Read the file's data into the data pointer
+    fread(data, sizeof(Image), INT16_MAX, fl);
+
+    // Close the file as it is now no longer needed
     fclose(fl);
+
+    // Define the 'i' variable
+    int i = 0;
+
+    // Allocate new memory that we will return soon
+    Image *new = malloc(sizeof(Image) * INT16_MAX);
     
-    return data;
+    
+    while (!isEmpty(data[i]) /* Check if data[i] is null */) {
+        // We have identified that data[i] is not null
+        // Now we can append data[i] to the pointer new
+        new[i] = data[i];
+
+        // Increment i by 1
+        i++;
+    }
+
+    // Free the now uneeded data
+    free(data);
+
+    // And return the pointer 'new'
+    return new;
 }
 
 void print(Image *image) {
