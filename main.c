@@ -403,7 +403,7 @@ void *other(void *vargp) {
 
         if (strcmp(addImagePressed, "1") == EXIT_SUCCESS) {
             updateImages();
-            printf("%d\n", strcmp(dirText, "/Users/familyaccount/Desktop/yo.png"));
+
             Image a = stbi_load(dirText, 3);
             a.topic = topic;
             addImage(a);
@@ -411,7 +411,7 @@ void *other(void *vargp) {
             print(Images);
             printf("len: %lu\n", len(Images));
 
-            //writeStructToFile(SAVES_DIR, Images);
+            writeStructToFile(SAVES_DIR, Images);
         }
         
         fclose(fp);
@@ -421,8 +421,6 @@ void *other(void *vargp) {
 
         free(searchPressed);
         free(addImagePressed);
-
-        usleep(200);
     }
     return NULL;
 }
