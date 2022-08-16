@@ -44,10 +44,10 @@ Image *read(char *filename) {
     FILE *fl = fopen(filename, "rb");
 
     // Allocate enough memory to read the data from the file
-    Image *data = malloc(sizeof(Image) * INT16_MAX);
+    Image *data;
 
     // Read the file's data into the data pointer
-    fread(data, sizeof(Image), INT16_MAX, fl);
+    fread(data, sizeof(Image), INT64_MAX, fl);
 
     // Close the file as it is now no longer needed
     fclose(fl);
@@ -55,8 +55,9 @@ Image *read(char *filename) {
     // Define the 'i' variable
     int i = 0;
 
-    // Allocate new memory that we will return soon
-    Image *new = malloc(sizeof(Image) * INT16_MAX);
+    // Allocate new memory that we will return
+    // At the end of the function
+    Image *new;
     
     
     while (!isEmpty(data[i]) /* Check if data[i] is null */) {
@@ -68,10 +69,10 @@ Image *read(char *filename) {
         i++;
     }
 
-    // Free the now uneeded data
-    free(data);
+    // Free the data
+    data = NULL;
 
-    // And return the pointer 'new'
+    // Finally, return the pointer 'new'
     return new;
 }
 
@@ -91,7 +92,7 @@ int main() {
     a.width = 6;
     a.height = 9;
     a.channels = 4;
-    a.topic = "deez";
+    a.topic = "wow";
 
     writeStructToFile("Saves/saves.bin", &a);
 
