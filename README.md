@@ -1,4 +1,7 @@
-# ImageSpring-C-Version
+<p align="center">
+  <img src="logo.png">
+  <h1 align="center">ImageSpring for macOS</h1>
+</p>
 A speedy Image recognisor rewritten in C
 
 ## Why ImageSpring?
