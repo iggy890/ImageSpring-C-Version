@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Images/logo.png">
+  <img src="https://user-images.githubusercontent.com/98705626/185792409-34049114-3d11-47e6-a6a0-c41bb2336cce.png">
   <h1 align="center">ImageSpring for macOS</h1>
 </p>
 
@@ -7,15 +7,15 @@
 
 <br>
 
-### <img src="Images/small.png" width="17">  Small: Less than 500 KB of files
+### <img src="https://user-images.githubusercontent.com/98705626/185792405-8cb181ee-8823-4f43-b361-5ac1a934c68b.png" width="17">  Small: Less than 500 KB of files
 
 <br>
 
-### <img src="Images/portable.png" width="20"> Portable: macOS and Linux Supported
+### <img src="https://user-images.githubusercontent.com/98705626/185792410-423c935a-176c-452f-8475-62fd79da27c0.png" width="20"> Portable: macOS and Linux Supported
 
 <br>
 
-### <img src="Images/fast.png" width="20"> Fast: Image Proccessing written in C
+### <img src="https://user-images.githubusercontent.com/98705626/185792405-8cb181ee-8823-4f43-b361-5ac1a934c68b.png" width="20"> Fast: Image Proccessing written in C
 
 ## Releases:
 1.0 in works (95.8% done)

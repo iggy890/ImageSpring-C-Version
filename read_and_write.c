@@ -11,15 +11,9 @@ int writeStructToFile(char *filename, Image *data) {
         return 1;
     }
 
-    // Get the length of the data
-    size_t dataSize = sizeof(data);
+    size_t dSize = sizeof(data);
 
-    // Write the data to the file
-    // And check if this is successful
-    size_t writtenData = fwrite(data, sizeof(Image), dataSize, fl);
-
-    if (dataSize != writtenData) {
-        printf("error\n");
+    if (dSize != fwrite(data, sizeof(Image), dSize, fl)) {
         return 1;
     }
 

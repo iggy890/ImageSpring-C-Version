@@ -9,11 +9,9 @@ lbl, lbl2, dir, topic, version, result, sc, ac = Label(window, text="Directory:"
 result.grid(column=1, row=10), dir.grid(row=2, column=1), topic.grid(row=2, column=2)
 
 def searchClick():
-    print("click")
     globals()['sc'] = 1
 
 def addImageClick():
-    print("ai clcik")
     globals()['ac'] = 1
 
 search, addImage = Button(window, text="Search", command=searchClick).grid(row=2, column=3), Button(window, text="Add Image", command=addImageClick).grid(row=2, column=4)
