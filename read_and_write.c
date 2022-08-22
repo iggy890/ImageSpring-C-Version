@@ -1,5 +1,13 @@
 #include <stdio.h>
-#include "Headers/stb_image.h"
+#include <stdlib.h>
+#define len(x) (sizeof(&x) / sizeof((x)[0]))
+
+typedef struct Image Image;
+struct Image {
+   int width, height, channels;
+   char *topic;
+   unsigned char *pixels;
+};
 
 // Write a struct to file
 int writeStructToFile(char *filename, Image *data) {
@@ -8,27 +16,31 @@ int writeStructToFile(char *filename, Image *data) {
 
     // Check if the file doesn't exist
     if (fl == NULL) {
-        return 1;
+        return 1; // Return 1 if the file doesn't exist
     }
 
+    // Assign the dSize variable to the size of the data
     size_t dSize = sizeof(data);
 
+    // Check if dSize is the same size as the written data
     if (dSize != fwrite(data, sizeof(Image), dSize, fl)) {
-        return 1;
+        return 1; // Return 1 because of an unsuccessful write
     }
 
+    // Close the file
     fclose(fl);
+
     //free(data);
 
-    return 0;
+    return 0; // Return 0 if the file was successfully written
 }
 
 // Checks if a struct of type Image is empty
 int isEmpty(Image i) {
     if (i.width == 0 && i.height == 0 && i.channels == 0) {
-        return 1;
+        return 1; // Return 1 because the Image is empty
     } else {
-        return 0;
+        return 0; // Return 0 because the Image is not empty
     }
 }
 
@@ -63,8 +75,8 @@ Image *read(char *filename) {
         i++;
     }
 
-    // Free the data
-    data = NULL;
+
+    free(data);
 
     // Finally, return the pointer 'new'
     return new;
@@ -82,23 +94,30 @@ void print(Image *image) {
 }
 
 int main() {
+    // Create the image object
     Image a;
+
+    // Assign the values to the image object
     a.width = 6;
     a.height = 9;
     a.channels = 4;
     a.topic = "wow";
 
+    // Write the Image object a to the file
     writeStructToFile("Saves/saves.bin", &a);
 
+    // Read the file into the data pointer
     Image *data = read("Saves/saves.bin");
     
+    // Define the current variable
     Image current = data[0];
 
     printf("Width: %d\n", current.width);
     printf("Height: %d\n", current.height);
 
     printf("Channels: %d\n", current.channels);
-    printf("Topic: %s\n", current.topic);
+    //printf("Topic: %s\n", current.topic);
 
-    free(data);
+    // Free the data variable
+    //free(data);
 }
