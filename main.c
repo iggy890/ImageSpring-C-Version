@@ -36,7 +36,7 @@ struct Pixel {
     byte b; // Blue Value
 };
 
-// The Result structure used for outputing the results
+// The Result structure used for outputting the results
 struct Result {
     int persLength; // Pers array length
     float pers[1000]; // Pers (Percents) array creation
@@ -49,7 +49,7 @@ struct Result {
 
 // File functions
 
-// A convolunted method of closing the inputted file
+// A convoluted method of closing the inputted file
 void closeFile(FILE *fl) {
     fclose(fl); // Close the file
 }
@@ -395,7 +395,7 @@ int main() {
     pthread_t thread1;
     pthread_t thread2;
 
-    // Intialize the threads
+    // Initialize the threads
     pthread_create(&thread1, NULL, run, NULL);
     pthread_create(&thread2, NULL, other, NULL);
 
