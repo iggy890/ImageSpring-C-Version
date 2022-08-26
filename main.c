@@ -6,9 +6,7 @@ ImageSpring Version 1
 #define STB_IMAGE_IMPLEMENTATION // Macro for stb_image.h
 #define PythonRunner_ON // Macro for PythonRunner.h
 #define SAVES_DIR "Saves/saves.bin" // The Directory of the saves
-#define FILENAME_SIZE 1024 // Required for readLine()
 #define MAX_LINE 2048 // Required for readLine()
-#define WINDOW_END 0 // Stops the all threads
 
 // Includes
 #include <stdio.h> // Standard Studio Library
@@ -25,7 +23,9 @@ typedef unsigned char byte;
 typedef struct Pixel Pixel;
 typedef struct Result Result;
 
+// Global Variables
 Image *Images; // Global variable
+int window_ended = 0; // True if the window has ended
 
 // Structs
 
@@ -326,12 +326,16 @@ int addImage(Image image) {
 // Runs the c.py file using PythonRunner.h
 void *run(void *vargp) {
     runFile("c.py"); // Run the file
+    window_ended = 1;
+
     return NULL; // Return NULL
 }
 
 
 void *other(void *vargp) {
     while (1) {
+        if (window_ended)
+            return NULL;
         FILE *fp = fopen("Saves/window.txt", "r");
 
         char *dirText = malloc(sizeof(char) * MAX_LINE);
@@ -378,6 +382,8 @@ void *other(void *vargp) {
 
         free(searchPressed);
         free(addImagePressed);
+        if (window_ended)
+            return NULL;
     }
     return NULL;
 }
