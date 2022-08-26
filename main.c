@@ -325,7 +325,7 @@ int addImage(Image image) {
 
 // Runs the c.py file using PythonRunner.h
 void *run(void *vargp) {
-    runFile("c.py"); // Run the file
+    runFile("window.py"); // Run the file
     window_ended = 1;
 
     return NULL; // Return NULL
