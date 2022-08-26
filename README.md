@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/98705626/185792409-34049114-3d11-47e6-a6a0-c41bb2336cce.png">
+  <img src="https://user-images.githubusercontent.com/98705626/185792409-34049114-3d11-47e6-a6a0-c41bb2336cce.png" #gh-dark-mode-only>
   <h1 align="center">ImageSpring for macOS</h1>
 </p>
 
