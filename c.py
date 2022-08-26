@@ -1,12 +1,12 @@
 # Imports
 from tkinter import Tk, Label, Button, Entry
 
-# Intialize Tkinter and create a window
+# Initialize Tkinter and create a window
 window = Tk()
 window.title("ImageSpring (C Version)")
 window.geometry("800x400")
 
-# Create Labels, Entrys and variables
+# Create Labels, Entries and variables
 lbl, lbl2, dir, topic, version, result, sc, ac = Label(window, text="Directory:").grid(row=1, column=1), Label(window, text="Topic:").grid(row=1, column=2), Entry(window, width=30), Entry(window, width=30), Label(window, text="Version: 1.0").grid(row=1, column=4), Label(window, text="Loading..."), 0, 0
 
 # Grid the Buttons

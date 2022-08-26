@@ -15,7 +15,7 @@
 
 <br>
 
-### <img src="https://user-images.githubusercontent.com/98705626/185792405-8cb181ee-8823-4f43-b361-5ac1a934c68b.png" width="20"> Fast: Image Proccessing written in C
+### <img src="https://user-images.githubusercontent.com/98705626/185792405-8cb181ee-8823-4f43-b361-5ac1a934c68b.png" width="20"> Fast: Image Processing written in C
 
 ## Releases:
 1.0 in works (95.8% done)
