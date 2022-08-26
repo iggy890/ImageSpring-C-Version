@@ -2,21 +2,20 @@
 ImageSpring Version 1
 */
 
+// Macros
 #define STB_IMAGE_IMPLEMENTATION // Macro for stb_image.h
 #define PythonRunner_ON // Macro for PythonRunner.h
-#define len(x) (sizeof(&x) / sizeof((x)[0])) // Get the size of an array
 #define SAVES_DIR "Saves/saves.bin" // The Directory of the saves
 #define FILENAME_SIZE 1024 // Required for readLine()
 #define MAX_LINE 2048 // Required for readLine()
+#define WINDOW_END 0 // Stops the all threads
 
+// Includes
 #include <stdio.h> // Standard Studio Library
-#include <float.h> // Floating Point Library
-
 #include <pthread.h> // Threading Library
-#include <string.h> // String Library
 
+#include <string.h> // String Library
 #include <unistd.h> // Needed for sleep()
-#include <malloc/_malloc.h> // Needed for malloc()
 
 #include "Headers/stb_image.h" // Main Imaging Library
 #include "Headers/PythonRunner.h" // Python code runner
@@ -24,10 +23,7 @@ ImageSpring Version 1
 // Type Definitions
 typedef unsigned char byte;
 typedef struct Pixel Pixel;
-typedef struct string string;
 typedef struct Result Result;
-typedef struct List List;
-typedef struct uList uList;
 
 Image *Images; // Global variable
 
@@ -40,24 +36,6 @@ struct Pixel {
     byte b; // Blue Value
 };
 
-// A List Structure
-struct List {
-    int arraySize; // The array size
-    int array[0]; // Create an int array
-};
-
-// A List structure with unsigned char members
-struct uList {
-    int arraySize; // The array size
-    byte array[0]; // Create an unsigned char array
-};
-
-// String structure
-struct string {
-    int size; // Text array length
-    char text[]; // Text array
-};
-
 // The Result structure used for outputing the results
 struct Result {
     int persLength; // Pers array length
@@ -68,16 +46,6 @@ struct Result {
 };
 
 // End of structs
-
-// Unconventional method of converting an unsigned char array to an int array
-List convertToInt(uList b) {
-    List a; // Create the List (array) a
-    for (int i; i <= len(b.array); i++) { // Loop through the unsigned char array
-        a.array[a.arraySize++] = (int)b.array[i]; // Convert the unsigned char value at position i to int
-    }
-
-    return a; // Return the converted array
-}
 
 // File functions
 
@@ -335,20 +303,7 @@ void quickSort(Result r, int first, int last) {
     }
 }
 
-// Get input from the user
-string input(char ins[]) {
-    string r; // Create the return value
-    char out; // Create charactor output
-
-    printf("%s", ins); // Output the value names "ins"
-    scanf("%c", &out); // Get the value and set it to out
-    
-    r.size = sizeof(out); // Set the size of the string
-    r.text[r.size] = out; // Copy the char named out to the string r
-
-    return r; // Return the string named r
-}
-
+// Compare the img input against the Image array input
 Result search(Image img, Image *array) {
     Result r; // Create the result
 
@@ -361,15 +316,17 @@ Result search(Image img, Image *array) {
     return r; // Return r
 }
 
+// Adds the inputted image to an array of Images
 int addImage(Image image) {
-    Images = malloc(len(Images) + sizeof(Image));
-    Images[len(Images)] = image;
-    return 0;
+    Images = malloc(len(Images) + sizeof(Image)); // Allocation
+    Images[len(Images)] = image; // Append the image
+    return 0; // Return 0
 }
 
+// Runs the c.py file using PythonRunner.h
 void *run(void *vargp) {
-    runFile("c.py");
-    return NULL;
+    runFile("c.py"); // Run the file
+    return NULL; // Return NULL
 }
 
 
@@ -426,11 +383,14 @@ void *other(void *vargp) {
 }
 
 int main() {
-    pthread_t thread0;
+    // Create the thread objects
     pthread_t thread1;
+    pthread_t thread2;
 
-    pthread_create(&thread0, NULL, run, NULL);
-    pthread_create(&thread1, NULL, other, NULL);
+    // Intialize the threads
+    pthread_create(&thread1, NULL, run, NULL);
+    pthread_create(&thread2, NULL, other, NULL);
 
+    // Delet the threads and exit
     pthread_exit(NULL);
 }
