@@ -385,7 +385,7 @@ void *other(void *vargp) {
         if (window_ended)
             return NULL;
 
-        usleep(200);
+        usleep(250);
     }
     return NULL;
 }

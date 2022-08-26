@@ -63,7 +63,7 @@ def write_open_close():
 def task():
     read_open_close() # Read the windowEdits file
     write_open_close() # Write to the window.txt file
-    window.after(1, task) # Execute function in 1ms
+    window.after(250, task) # Execute function in 250ms
 
 # Execute the task function after 0ms
 window.after(0, task)
