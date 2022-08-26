@@ -384,6 +384,8 @@ void *other(void *vargp) {
         free(addImagePressed);
         if (window_ended)
             return NULL;
+
+        usleep(200);
     }
     return NULL;
 }
@@ -397,6 +399,6 @@ int main() {
     pthread_create(&thread1, NULL, run, NULL);
     pthread_create(&thread2, NULL, other, NULL);
 
-    // Delet the threads and exit
+    // Delete the threads and exit
     pthread_exit(NULL);
 }
