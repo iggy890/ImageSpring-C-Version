@@ -29,7 +29,4 @@ Edits Needed | Yes | Yes | Yes | No | Yes
 Size | 266 KB | 1.36 KB | 12.4 KB | 401 Bytes | 369 Bytes
 Lines | 7678 lines | 47 lines | 436 lines | 21 lines | 32 lines
 
-## Issues
-- [x] #1
-
 Icons from <a>flaticon.com</a>
