@@ -1,13 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
-#define len(x) (sizeof(&x) / sizeof((x)[0]))
-
-typedef struct Image Image;
-struct Image {
-   int width, height, channels;
-   char *topic;
-   unsigned char *pixels;
-};
+#include "Headers/stb_image.h"
 
 // Write a struct to file
 int writeStructToFile(char *filename, Image *data) {
@@ -37,6 +29,7 @@ int writeStructToFile(char *filename, Image *data) {
 
 // Checks if a struct of type Image is empty
 int isEmpty(Image i) {
+    printf("Reached isEmpty\n");
     if (i.width == 0 && i.height == 0 && i.channels == 0) {
         return 1; // Return 1 because the Image is empty
     } else {
@@ -45,7 +38,7 @@ int isEmpty(Image i) {
 }
 
 // Read an array of structs from a specified file
-Image *read(char *filename) {
+Image *readStructFromFile(char *filename) {
     // Open the specified file in rb (read-binary)
     FILE *fl = fopen(filename, "rb");
 
@@ -53,33 +46,12 @@ Image *read(char *filename) {
     Image *data;
 
     // Read the file's data into the data pointer
-    fread(data, sizeof(Image), INT64_MAX, fl);
+    freadStructFromFile(data, sizeof(Image), INT64_MAX, fl);
 
     // Close the file as it is now no longer needed
     fclose(fl);
 
-    // Define the 'i' variable
-    int i = 0;
-
-    // Allocate new memory that we will return
-    // At the end of the function
-    Image *new;
-    
-    
-    while (!isEmpty(data[i]) /* Check if data[i] is null */) {
-        // We have identified that data[i] is not null
-        // Now we can append data[i] to the pointer new
-        new[i] = data[i];
-
-        // Increment i by 1
-        i++;
-    }
-
-
-    free(data);
-
-    // Finally, return the pointer 'new'
-    return new;
+    return data;
 }
 
 void print(Image *image) {
@@ -107,16 +79,16 @@ int main() {
     writeStructToFile("Saves/saves.bin", &a);
 
     // Read the file into the data pointer
-    Image *data = read("Saves/saves.bin");
-    
+    Image *data = readStructFromFile("Saves/saves.bin");
+
     // Define the current variable
     Image current = data[0];
-
+    
     printf("Width: %d\n", current.width);
     printf("Height: %d\n", current.height);
 
     printf("Channels: %d\n", current.channels);
-    //printf("Topic: %s\n", current.topic);
+    printf("Topic: %s\n", current.topic);
 
     // Free the data variable
     //free(data);
