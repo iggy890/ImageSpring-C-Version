@@ -4,7 +4,6 @@ ImageSpring Version 1
 
 // Macros
 #define STB_IMAGE_IMPLEMENTATION // Macro for stb_image.h
-#define PythonRunner_ON // Macro for PythonRunner.h
 #define SAVES_DIR "Saves/saves.bin" // The Directory of the saves
 #define MAX_LINE 2048 // Required for readLine()
 
@@ -16,7 +15,6 @@ ImageSpring Version 1
 #include <unistd.h> // Needed for sleep()
 
 #include "Headers/stb_image.h" // Main Imaging Library
-#include "Headers/PythonRunner.h" // Python code runner
 
 // Type Definitions
 typedef unsigned char byte;
@@ -76,29 +74,20 @@ void writeToFile(FILE *fl, char text[]) {
 
 // Write a struct to file
 int writeStructToFile(char *filename, Image *data) {
-    // file pointer variable
-    FILE *file, *fileLen;
-    
     // attempt to open the file with name filename, in 'write to binary file mode'
-    file = fopen(filename, "wb");
+    FILE *file = fopen(filename, "wb");
     
     // return false if there was an error opening the file
     if (file == NULL) return 0;
     
     int total = len(data);
-
-    // write the total number of structs in the array to the file, return false 
-    // if the function fails to write the data successfully
-    if (fwrite(&total, sizeof(int), 1, fileLen) != 1)
-        return 0;
     
-    // write the structs in the array to the file, return false if the function 
+    // write the structs in the array to the file, return 1 if the function 
     // fails to write the data successfully
     if (fwrite(data, sizeof(Image), total, file) != total)
-        return 0;
+        return 1;
     
     // close access to the file, return false if this fails
-    if (fclose(file) == EOF) return 1; 
     if (fclose(file) == EOF) return 1;
 
     // if everything is successful return true
@@ -323,9 +312,9 @@ int addImage(Image image) {
     return 0; // Return 0
 }
 
-// Runs the c.py file using PythonRunner.h
+// Run the window.py file
 void *run(void *vargp) {
-    runFile("window.py"); // Run the file
+    system("python3 window.py"); // Run the file
     window_ended = 1;
 
     return NULL; // Return NULL
@@ -336,6 +325,7 @@ void *other(void *vargp) {
     while (1) {
         if (window_ended)
             return NULL;
+
         FILE *fp = fopen("Saves/window.txt", "r");
 
         char *dirText = malloc(sizeof(char) * MAX_LINE);
@@ -353,6 +343,22 @@ void *other(void *vargp) {
         fgets(searchPressed, 3, fp);
         fgets(addImagePressed, 3, fp);
 
+        if (strcmp(addImagePressed, "1") == EXIT_SUCCESS) {
+            updateImages();
+            Image a = stbi_load(dirText, 3);
+            printf("Channels: %d\n", a.channels);
+
+            a.topic = topic;
+            addImage(a);
+
+            printf("Channels: %d\n", Images[0].channels);
+            printf("len: %lu\n", len(Images));
+
+            writeStructToFile(SAVES_DIR, Images);
+        }
+        
+        fclose(fp); // Close the file
+
         if (strcmp(searchPressed, "1\n") == EXIT_SUCCESS) {
             updateImages();
 
@@ -362,26 +368,13 @@ void *other(void *vargp) {
             }
         }
 
-        if (strcmp(addImagePressed, "1") == EXIT_SUCCESS) {
-            updateImages();
-
-            Image a = stbi_load(dirText, 3);
-            a.topic = topic;
-            addImage(a);
-
-            print(Images);
-            printf("len: %lu\n", len(Images));
-
-            writeStructToFile(SAVES_DIR, Images);
-        }
-        
-        fclose(fp);
-
+        // Free the allocated variables
         free(dirText);
         free(topic);
 
         free(searchPressed);
         free(addImagePressed);
+        
         if (window_ended)
             return NULL;
 
