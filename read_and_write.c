@@ -46,11 +46,12 @@ Image *readStructFromFile(char *filename) {
     Image *data;
 
     // Read the file's data into the data pointer
-    freadStructFromFile(data, sizeof(Image), INT64_MAX, fl);
+    fread(data, sizeof(Image), INT64_MAX, fl);
 
     // Close the file as it is now no longer needed
     fclose(fl);
 
+    // Return the data
     return data;
 }
 
