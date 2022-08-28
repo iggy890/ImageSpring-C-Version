@@ -74,24 +74,28 @@ void writeToFile(FILE *fl, char text[]) {
 
 // Write a struct to file
 int writeStructToFile(char *filename, Image *data) {
-    // attempt to open the file with name filename, in 'write to binary file mode'
-    FILE *file = fopen(filename, "wb");
-    
-    // return false if there was an error opening the file
-    if (file == NULL) return 0;
-    
-    int total = len(data);
-    
-    // write the structs in the array to the file, return 1 if the function 
-    // fails to write the data successfully
-    if (fwrite(data, sizeof(Image), total, file) != total)
-        return 1;
-    
-    // close access to the file, return false if this fails
-    if (fclose(file) == EOF) return 1;
+    // Open the file in the 'wb' (write-binary) mode
+    FILE *fl = fopen(filename, "wb");
 
-    // if everything is successful return true
-    return 0;
+    // Check if the file doesn't exist
+    if (fl == NULL) {
+        return 1; // Return 1 if the file doesn't exist
+    }
+
+    // Assign the dSize variable to the size of the data
+    size_t dSize = sizeof(data);
+
+    // Check if dSize is the same size as the written data
+    if (dSize != fwrite(data, sizeof(Image), dSize, fl)) {
+        return 1; // Return 1 because of an unsuccessful write
+    }
+
+    // Close the file
+    fclose(fl);
+
+    //free(data);
+
+    return 0; // Return 0 if the file was successfully written
 }
 
 // Prints a pointer array of type Image
@@ -106,45 +110,21 @@ void print(Image *image) {
     }
 }
 
-// Reads a struct array of type Image from a given file
+// Read an array of structs from a specified file
 Image *readStructFromFile(char *filename) {
-    // open the file with name filename in 'read a binary file mode'
-    FILE *file = fopen(filename, "rb");
-    
-    // if fopen() failed to open the file, return NULL 
-    if (file == NULL) {
-        return NULL; 
-    }
-    
-    // Define the size of what we are going to read
-    int total;
+    // Open the specified file in rb (read-binary)
+    FILE *fl = fopen(filename, "rb");
 
-    // read the total number of Image struct data records stored in the file 
-    // into the total pointer parameter
-    if (fread(&total, sizeof(int), 1, file) != 1) {
-        return NULL;
-    }
+    // Allocate enough memory to read the data from the file
+    Image *data;
 
-    // allocate enough space to store the array of Image structs
-    Image *data = malloc(sizeof(Image) * total);
-    
-    // read the data from the file into the block of memory we have allocated, 
-    // return NULL if the read was unsuccessful and free the dynamically allocated
-    // memory to prevent a memory leak
-    if (fread(data, sizeof(Image), total, file) != total) {
-        free(data);
-        return NULL;
-    }
-    
-    // close the file, if this is unsuccessful free the dynamically allocated 
-    // memory to prevent a memory leak and return NULL 
-    if (fclose(file) == EOF) {
-        free(data);
-        return NULL;
-    }
-    
-    // if everything is successful, return the pointer to the dynamically 
-    // allocated array of Image structs
+    // Read the file's data into the data pointer
+    fread(data, sizeof(Image), INT64_MAX, fl);
+
+    // Close the file as it is now no longer needed
+    fclose(fl);
+
+    // Return the data
     return data;
 }
 
@@ -238,6 +218,7 @@ float compareImageSlow(Image img1, Image img2) {
     return (w * h) * 2 / c * 100; // Convert to % value
 }
 
+// Update the Images variable to reflect the saves.bin version
 void updateImages() {
     Images = readStructFromFile("Saves/saves.bin");
 }
@@ -315,7 +296,7 @@ int addImage(Image image) {
 // Run the window.py file
 void *run(void *vargp) {
     system("python3 window.py"); // Run the file
-    window_ended = 1;
+    window_ended = 1; // Set window ended to true
 
     return NULL; // Return NULL
 }
@@ -323,26 +304,33 @@ void *run(void *vargp) {
 
 void *other(void *vargp) {
     while (1) {
+        // Check if the window has ended and stop the thread
         if (window_ended)
             return NULL;
 
+        // Open the file
         FILE *fp = fopen("Saves/window.txt", "r");
 
+        // Memory allocation
         char *dirText = malloc(sizeof(char) * MAX_LINE);
         char *topic = malloc(sizeof(char) * MAX_LINE);
 
         char *searchPressed = malloc(1);
         char *addImagePressed = malloc(1);
 
+        // Read the file line by line
         fgets(dirText, MAX_LINE, fp);
         fgets(topic, MAX_LINE, fp);
 
+        // Remove the '\n' character from the end
         dirText[strcspn(dirText, "\n")] = 0;
         topic[strcspn(topic, "\n")] = 0;
 
+        // Read the rest of the lines
         fgets(searchPressed, 3, fp);
         fgets(addImagePressed, 3, fp);
 
+        // Check if the 'Add Image' button is pressed
         if (strcmp(addImagePressed, "1") == EXIT_SUCCESS) {
             updateImages();
             Image a = stbi_load(dirText, 3);
@@ -359,6 +347,7 @@ void *other(void *vargp) {
         
         fclose(fp); // Close the file
 
+        // Check if the 'Search' button is pressed
         if (strcmp(searchPressed, "1\n") == EXIT_SUCCESS) {
             updateImages();
 
@@ -375,9 +364,11 @@ void *other(void *vargp) {
         free(searchPressed);
         free(addImagePressed);
         
+        // If the window has ended then stop the thread
         if (window_ended)
             return NULL;
 
+        // Wait for a little
         usleep(250);
     }
     return NULL;
