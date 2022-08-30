@@ -1361,7 +1361,7 @@ STBIDEF Image stbi_load(char *filename, int req_comp) {
    FILE *f = stbi__fopen(filename, "rb");
    Image r;
    if (!f) {
-      printf("Error\n"); 
+      printf("Error, file: %s doesn't exist\n", filename); 
       return r;
    }
    r.pixels = stbi_load_from_file(f,&x
