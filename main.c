@@ -37,10 +37,10 @@ struct Pixel {
 // The Result structure used for outputting the results
 struct Result {
     int persLength; // Pers array length
-    float pers[1000]; // Pers (Percents) array creation
+    float pers[INT8_MAX]; // Pers (Percents) array creation
 
     int topicsLength; // Topics array length
-    char topics[2000]; // Topics array creation
+    char topics[INT8_MAX]; // Topics array creation
 };
 
 // End of structs
@@ -276,6 +276,8 @@ void quickSort(Result r, int first, int last) {
 // Compare the img input against the Image array input
 Result search(Image img, Image *array) {
     Result r; // Create the result
+    r.persLength = 0;
+    r.topicsLength = 0;
 
     for (int i; i <= len(array); i++) { // Loop through the provided List of Images
         r.pers[r.persLength++] = compareImage(img, array[i]); // Compare the Image array[i] with Image img
@@ -371,7 +373,6 @@ void *other(void *vargp) {
         // Wait for a little
         usleep(250);
     }
-    return NULL;
 }
 
 int main() {
