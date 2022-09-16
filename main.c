@@ -273,17 +273,43 @@ void quickSort(Result r, int first, int last) {
     }
 }
 
+// Assign the values from the pers and topics array to the Result
+int copy(Result r, float pers[], char topics[]) {
+    int persLength = (int) len(pers);
+    int topicsLength = (int) len(topics);
+
+    for (int i = 0; i <= persLength; i++)
+        r.pers[i] = pers[i]; // Assign the values
+
+    for (int i = 0; i <= topicsLength; i++)
+        r.topics[i] = topics[i]; // Assign the values
+
+    return 0;
+}
+
 // Compare the img input against the Image array input
 Result search(Image img, Image *array) {
     Result r; // Create the result
-    r.persLength = 0;
-    r.topicsLength = 0;
+    int size = (int)len(array); // Get the length of the array
 
-    for (int i; i <= len(array); i++) { // Loop through the provided List of Images
-        r.pers[r.persLength++] = compareImage(img, array[i]); // Compare the Image array[i] with Image img
-        r.topics[r.topicsLength++] = *array[i].topic; // Add the Image array[i]'s topic to r.topics
+
+    float pers[size]; // Create the pers array
+    char topics[size]; // Create the topics array
+
+    for (int i; i <= size; i++) { // Loop through the provided List of Images
+        pers[i] = compareImage(img, array[i]); // Compare the Image array[i] with Image img
+        topics[i] = *array[i].topic; // Add the Image array[i]'s topic to r.topics
     }
+
+    // Assign the length values
+    r.persLength = size;
+    r.topicsLength = size;
+
+    copy(r, pers, topics);
+
+    printf("[Started quickSort]\n");
     quickSort(r, 0, sizeof(r.pers)); // Sort the variable r
+    printf("[Ended quickSort]\n");
 
     return r; // Return r
 }
@@ -353,10 +379,13 @@ void *other(void *vargp) {
         if (strcmp(searchPressed, "1\n") == EXIT_SUCCESS) {
             updateImages();
 
+            printf("ok\n");
             Result result = search(stbi_load(dirText, 3), Images);
+            printf("getting there...\n");
             for (int i; i < result.persLength; i++) {
                 printf("Image: %c %f%%\n", result.topics[i], result.pers[i]);
             }
+            printf("yea!!!\n");
         }
 
         // Free the allocated variables

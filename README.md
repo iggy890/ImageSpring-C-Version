@@ -18,15 +18,15 @@
 ### <img src="https://user-images.githubusercontent.com/98705626/185792405-8cb181ee-8823-4f43-b361-5ac1a934c68b.png" width="20"> Fast: Image Processing written in C
 
 ## Releases:
-1.0 in works (95.8% done)
+1.0 in works (98% done)
 
 ## File table:
 
-File | stb_image.h | c.py | main.c |
---- | --- | --- | --- | --- | ---
+File | stb_image.h | window.py | main.c |
+--- | --- | --- | --- |
 Speed Improvements | No | Yes | No |
-Edits Needed | Yes | Yes | Yes |
+Edits Needed | No | Yes | Yes |
 Size | 266 KB | 1.36 KB | 12.4 KB |
-Lines | 7678 lines | 47 lines | 436 lines |
+Lines | 7678 lines | 75 lines | 389 lines |
 
 Icons from <a>flaticon.com</a>
